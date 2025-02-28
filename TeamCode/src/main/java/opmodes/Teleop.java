@@ -3,8 +3,12 @@ package opmodes;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.rowanmcalpin.nextftc.core.command.Command;
+import com.rowanmcalpin.nextftc.core.command.groups.SequentialGroup;
+import com.rowanmcalpin.nextftc.core.command.utility.InstantCommand;
+import com.rowanmcalpin.nextftc.core.command.utility.conditionals.PassiveConditionalCommand;
 import com.rowanmcalpin.nextftc.ftc.OpModeData;
 import com.rowanmcalpin.nextftc.ftc.driving.MecanumDriverControlled;
+import com.rowanmcalpin.nextftc.ftc.gamepad.GamepadManager;
 import com.rowanmcalpin.nextftc.ftc.hardware.controllables.MotorEx;
 import com.rowanmcalpin.nextftc.pedro.PedroOpMode;
 
@@ -63,8 +67,26 @@ public class Teleop extends PedroOpMode {
     }
     private void registerControls() {
         gamepadManager.getGamepad1().getRightBumper().setPressedCommand(Claw.INSTANCE::toggle);
+
     }
-
-
-
+    public boolean slowMode = true;
+    public Command ToggleSpeed(){
+        return new SequentialGroup(
+            new InstantCommand(() ->{
+                slowMode = !slowMode;
+                return null;
+            }),
+            new PassiveConditionalCommand(
+                () -> slowMode,
+                new InstantCommand(() ->{
+                    new driver.setScaler(0.2);
+                    return null;
+                }),
+                new InstantCommand(() ->{
+                    driver.setScaler(0.8);
+                    return null;
+                })
+            )
+        );
+    }
 }
