@@ -27,7 +27,11 @@ public class TestAuto extends PedroOpMode {
     public void onInit() {
         Constants.setConstants(fConstants.getClass(), lConstants.getClass());
         follower = new Follower(hardwareMap);
-        follower.poseUpdater.resetIMU();
+        try {
+            follower.poseUpdater.resetIMU();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         follower.setStartingPose(TrajectoryBuilder.startPose);
 
         //IntakeArm.resetEncoder(); WE SHOULD ADD THIS - it just sets the encoder value to 0 at start.
@@ -47,6 +51,7 @@ public class TestAuto extends PedroOpMode {
 
         CommandManager.INSTANCE.scheduleCommand(
                 new SequentialGroup(
+
                         BucketRoutines.firstSample()
                         //BucketRoutines.secondSample(),
                         //BucketRoutines.thirdSample(),

@@ -10,6 +10,7 @@ import com.rowanmcalpin.nextftc.ftc.OpModeData;
 import com.rowanmcalpin.nextftc.ftc.driving.MecanumDriverControlled;
 import com.rowanmcalpin.nextftc.ftc.gamepad.GamepadManager;
 import com.rowanmcalpin.nextftc.ftc.hardware.controllables.MotorEx;
+import com.rowanmcalpin.nextftc.pedro.DriverControlled;
 import com.rowanmcalpin.nextftc.pedro.PedroOpMode;
 
 import java.sql.Driver;
@@ -21,7 +22,7 @@ public class Teleop extends PedroOpMode {
     public Teleop(){
         super(Claw.INSTANCE);
     }
-    public Command driver;
+    public MecanumDriverControlled driver;
     public MotorEx frontLeft;
     public MotorEx backLeft;
     public MotorEx frontRight;
@@ -70,23 +71,16 @@ public class Teleop extends PedroOpMode {
 
     }
     public boolean slowMode = true;
-    public Command ToggleSpeed(){
+    public Command toggleSpeed() {
         return new SequentialGroup(
-            new InstantCommand(() ->{
-                slowMode = !slowMode;
-                return null;
-            }),
-            new PassiveConditionalCommand(
-                () -> slowMode,
-                new InstantCommand(() ->{
-                    new driver.setScaler(0.2);
-                    return null;
+                new InstantCommand(() -> {
+                    slowMode = !slowMode;
                 }),
-                new InstantCommand(() ->{
-                    driver.setScaler(0.8);
-                    return null;
-                })
-            )
+                new PassiveConditionalCommand(
+                        () -> slowMode,
+                        new InstantCommand(() -> { driver.setScalar(0.2); }),
+                        new InstantCommand(() -> { driver.setScalar(0.8); })
+                )
         );
     }
 }

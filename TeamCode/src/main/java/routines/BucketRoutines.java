@@ -2,11 +2,11 @@ package routines;
 
 import com.rowanmcalpin.nextftc.core.command.Command;
 import com.rowanmcalpin.nextftc.core.command.groups.ParallelGroup;
-import com.rowanmcalpin.nextftc.core.command.groups.SequentialGroup;
+import com.rowanmcalpin.nextftc.core.units.Angle;
+import com.rowanmcalpin.nextftc.pedro.FollowPath;
+import com.rowanmcalpin.nextftc.pedro.Turn;
 
-import subsystems.Claw;
-import subsystems.IntakeArm;
-import utils.FollowPathWithSpeed;
+import pedroPathing.examples.Circle;
 import utils.TrajectoryBuilder;
 
 public class BucketRoutines {
@@ -15,7 +15,7 @@ public class BucketRoutines {
 
     public static Command firstSample() {
         return new ParallelGroup(
-                new FollowPathWithSpeed(TrajectoryBuilder.startToBucket, true, 0.5),
+                new FollowPath(TrajectoryBuilder.startToBucket, true, 0.5),
                 MechanismRoutines.intakeOut()
         );
     }
