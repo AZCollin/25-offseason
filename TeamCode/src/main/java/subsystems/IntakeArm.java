@@ -21,22 +21,27 @@ public class IntakeArm extends Subsystem {
     public double Kf;
     public PIDFController controller = new PIDFController(0.005,0.0,0.0,new StaticFeedforward(0.0));
     public String name = "IntakeArm";
+
     @Override
     public void initialize(){
         motor = new MotorEx(name);
     }
+
     @Override
     public void periodic(){
         OpModeData.telemetry.addData("IntakeArm Position",motor.getCurrentPosition());
     }
+
     @Override
     @NotNull
     public Command getDefaultCommand(){
         return new HoldPosition(motor, controller,this);
     }
+
     public Command pickup(){
         return new RunToPosition(motor,1000,controller,this);
     }
+
     public Command toPosition(double targetPosition){
         return new RunToPosition(motor,targetPosition,controller,this);
     }

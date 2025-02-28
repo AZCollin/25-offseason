@@ -78,8 +78,8 @@ public class Teleop extends PedroOpMode {
                 }),
                 new PassiveConditionalCommand(
                         () -> slowMode,
-                        new InstantCommand(() -> { driver.setScalar(0.2); }),
-                        new InstantCommand(() -> { driver.setScalar(0.8); })
+                        () -> new InstantCommand(() -> { driver.setScalar(0.2); }),
+                        () -> new InstantCommand(() -> { driver.setScalar(0.8); })
                 )
         );
     }
