@@ -34,7 +34,7 @@ public class TestAuto extends PedroOpMode {
         }
         follower.setStartingPose(TrajectoryBuilder.startPose);
 
-        //IntakeArm.resetEncoder(); WE SHOULD ADD THIS - it just sets the encoder value to 0 at start.
+        IntakeArm.INSTANCE.resetEncoderZero();//reset encoder
         Claw.INSTANCE.close(); // Close claw
 
         OpModeData.telemetry = telemetry;

@@ -8,44 +8,42 @@ import com.rowanmcalpin.nextftc.ftc.hardware.ServoToPosition;
 
 import java.util.Objects;
 
-import utils.Constants;
-
-public class Claw extends Subsystem {
-    public static final Claw INSTANCE = new Claw();
-    private Claw() {}
+public class IntakeSlide extends Subsystem {
+    public static final IntakeSlide INSTANCE = new IntakeSlide();
+    private IntakeSlide() {}
     public Servo servo;
-    public String name = "claw_servo";
+    public String name = "IntakeSlide";
     public String state;
 
     @Override
     public void initialize(){
         servo = OpModeData.INSTANCE.getHardwareMap().get(Servo.class, name);
-        open();
+        in();
     }
 
     @Override
     public void periodic(){
-        OpModeData.telemetry.addData("Claw State", state);
+        OpModeData.telemetry.addData("IntakeSlide State", state);
     }
 
-    public Command open(){
-        state = "OPEN";
-        return new ServoToPosition(servo, Constants.ClawOpen, this);
+    public Command out(){
+        state = "OUT";
+        return new ServoToPosition(servo, 1, this);
     }
 
-    public Command close(){
-        state = "CLOSE";
-        return new ServoToPosition(servo, Constants.ClawClosed, this);
+    public Command in(){
+        state = "IN";
+        return new ServoToPosition(servo, 0, this);
     }
     public Command setPosition(double target){
         return new ServoToPosition(servo, target, this);
     }
 
     public Command toggle(){
-        if (Objects.equals(state, "OPEN")){
-            return close();
+        if (Objects.equals(state, "OUT")){
+            return in();
         } else {
-            return open();
+            return out();
         }
     }
 

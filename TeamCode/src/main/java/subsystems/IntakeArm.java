@@ -3,6 +3,7 @@ package subsystems;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.rowanmcalpin.nextftc.core.Subsystem;
 import com.rowanmcalpin.nextftc.core.command.Command;
+import com.rowanmcalpin.nextftc.core.command.utility.NullCommand;
 import com.rowanmcalpin.nextftc.core.control.coefficients.PIDCoefficients;
 import com.rowanmcalpin.nextftc.core.control.controllers.Controller;
 import com.rowanmcalpin.nextftc.core.control.controllers.PIDFController;
@@ -45,7 +46,10 @@ public class IntakeArm extends Subsystem {
     public Command toPosition(double targetPosition){
         return new RunToPosition(motor,targetPosition,controller,this);
     }
-
+    public Command resetEncoderZero() {
+        motor.setCurrentPosition(0);
+        return new NullCommand();
+    }
 
 
 

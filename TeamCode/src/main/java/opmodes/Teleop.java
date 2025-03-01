@@ -14,8 +14,10 @@ import com.rowanmcalpin.nextftc.pedro.DriverControlled;
 import com.rowanmcalpin.nextftc.pedro.PedroOpMode;
 
 import java.sql.Driver;
+import java.util.Objects;
 
 import subsystems.Claw;
+import subsystems.IntakeSlide;
 
 @TeleOp(name = "ClipBot")
 public class Teleop extends PedroOpMode {
@@ -28,6 +30,9 @@ public class Teleop extends PedroOpMode {
     public MotorEx frontRight;
     public MotorEx backRight;
     public MotorEx[] driveMotors;
+    public String lastSequence;
+    public int specimenSequenceCount;
+    //public int sampleSequenceCount;
     @Override
     public void onInit () {
         OpModeData.telemetry = telemetry;
@@ -83,4 +88,70 @@ public class Teleop extends PedroOpMode {
                 )
         );
     }
+    public void sequenceHandler(String sequenceInput){
+        if(!(Objects.equals(lastSequence, sequenceInput))){
+            specimenSequenceCount = 1;
+        }
+        switch (sequenceInput){
+            default:
+                //empty
+                break;
+            case "sample":
+                //sample
+                break;
+            case "specimen":
+                specimenSequence();
+                break;
+            case "ascend":
+                //ascend
+                break;
+        }
+        specimenSequenceCount += 1;
+        lastSequence = sequenceInput;
+    }
+    public void specimenSequence(){
+        switch (specimenSequenceCount){
+            case 1:
+                IntakeSlide.INSTANCE.out();
+                break;
+            case 2:
+                Claw.INSTANCE.open();
+                break;
+
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
