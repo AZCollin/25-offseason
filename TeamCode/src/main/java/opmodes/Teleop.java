@@ -8,22 +8,19 @@ import com.rowanmcalpin.nextftc.core.command.utility.InstantCommand;
 import com.rowanmcalpin.nextftc.core.command.utility.conditionals.PassiveConditionalCommand;
 import com.rowanmcalpin.nextftc.ftc.OpModeData;
 import com.rowanmcalpin.nextftc.ftc.driving.MecanumDriverControlled;
-import com.rowanmcalpin.nextftc.ftc.gamepad.GamepadManager;
 import com.rowanmcalpin.nextftc.ftc.hardware.controllables.MotorEx;
-import com.rowanmcalpin.nextftc.pedro.DriverControlled;
 import com.rowanmcalpin.nextftc.pedro.PedroOpMode;
 
-import java.sql.Driver;
-import java.util.Objects;
-
-import subsystems.Claw;
+import subsystems.IntakeClaw;
+import subsystems.IntakeArm;
 import subsystems.IntakeSlide;
 
 @TeleOp(name = "ClipBot")
 public class Teleop extends PedroOpMode {
-    public Teleop(){
-        super(Claw.INSTANCE);
+    public Teleop() {
+        super(IntakeClaw.INSTANCE);
     }
+
     public MecanumDriverControlled driver;
     public MotorEx frontLeft;
     public MotorEx backLeft;
@@ -31,32 +28,38 @@ public class Teleop extends PedroOpMode {
     public MotorEx backRight;
     public MotorEx[] driveMotors;
     public String lastSequence;
-    public int specimenSequenceCount;
+    public int specimenSequenceCount = 0;
+
     //public int sampleSequenceCount;
     @Override
-    public void onInit () {
+    public void onInit() {
         OpModeData.telemetry = telemetry;
         mecanumDriveInit();
         telemetry.update();
     }
+
     @Override
-    public void onWaitForStart () {
+    public void onWaitForStart() {
 
     }
+
     @Override
-    public void onStartButtonPressed () {
-        driver = new MecanumDriverControlled(driveMotors,gamepadManager.getGamepad1());
+    public void onStartButtonPressed() {
+        driver = new MecanumDriverControlled(driveMotors, gamepadManager.getGamepad1());
         driver.invoke();
         registerControls();
     }
+
     @Override
-    public void onUpdate () {
+    public void onUpdate() {
         telemetry.update();
     }
+
     @Override
     public void onStop() {
 
     }
+
     public void mecanumDriveInit() {
         frontLeft = new MotorEx("frontLeft");
         frontRight = new MotorEx("frontRight");
@@ -68,14 +71,18 @@ public class Teleop extends PedroOpMode {
         backLeft.setDirection(DcMotorSimple.Direction.FORWARD);
         backRight.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        driveMotors = new MotorEx[] {frontLeft, frontRight, backLeft, backRight};
+        driveMotors = new MotorEx[]{frontLeft, frontRight, backLeft, backRight};
 
     }
+
     private void registerControls() {
-        gamepadManager.getGamepad1().getRightBumper().setPressedCommand(Claw.INSTANCE::toggle);
-
+        gamepadManager.getGamepad1().getRightBumper().setPressedCommand(this::specimenNextStep);
+        gamepadManager.getGamepad1().getLeftBumper().setPressedCommand(this::specimenPreviousStep);
+        gamepadManager.getGamepad1().getA().setPressedCommand(this::toggleSpeed);
     }
+
     public boolean slowMode = true;
+
     public Command toggleSpeed() {
         return new SequentialGroup(
                 new InstantCommand(() -> {
@@ -83,82 +90,83 @@ public class Teleop extends PedroOpMode {
                 }),
                 new PassiveConditionalCommand(
                         () -> slowMode,
-                        () -> new InstantCommand(() -> { driver.setScalar(0.2); }),
-                        () -> new InstantCommand(() -> { driver.setScalar(0.8); })
+                        () -> new InstantCommand(() -> {
+                            driver.setScalar(0.2);
+                        }),
+                        () -> new InstantCommand(() -> {
+                            driver.setScalar(0.8);
+                        })
                 )
         );
     }
-    public void sequenceHandler(String sequenceInput){
-        if(!(Objects.equals(lastSequence, sequenceInput))){
-            specimenSequenceCount = 1;
-        }
-        switch (sequenceInput){
-            default:
-                //empty
-                break;
-            case "sample":
-                //sample
-                break;
-            case "specimen":
-                specimenSequence();
-                break;
-            case "ascend":
-                //ascend
-                break;
-        }
-        specimenSequenceCount += 1;
-        lastSequence = sequenceInput;
+
+    public Command specimenNextStep() {
+        new InstantCommand(
+                () -> {
+                    specimenSequenceCount++;
+                    nextSpecimenSequence();
+                }
+        );
+        return null;
     }
-    public void specimenSequence(){
-        switch (specimenSequenceCount){
+
+    public Command specimenPreviousStep() {
+        new InstantCommand(
+                this::previousSpecimenSequence
+        );
+        return null;
+    }
+
+    public void nextSpecimenSequence() {
+        switch (specimenSequenceCount) {
             case 1:
                 IntakeSlide.INSTANCE.out();
                 break;
             case 2:
-                Claw.INSTANCE.open();
+                IntakeClaw.INSTANCE.open();
                 break;
+            case 3:
+                IntakeArm.INSTANCE.pickup();
+                break;
+            case 4:
+                IntakeClaw.INSTANCE.close();
+                break;
+            case 5:
+                //IntakeArm.INSTANCE.retract();
+                break;
+            case 6:
+                IntakeSlide.INSTANCE.in();
+                specimenSequenceCount = 1;
+                break;
+        }
+    }
 
+    public void previousSpecimenSequence() {
+        if (specimenSequenceCount > 1) {
+            specimenSequenceCount--; // Move back one step
+        }
 
-            gamepadManager.getGamepad1().getRightBumper().setPressedCommand(this::specimenNextStep);
-            gamepadManager.getGamepad1().getLeftBumper().setPressedCommand(this::specimenPreviousStep);
-
-            public Command specimenNextStep() {
-                new InstantCommand(
-                        () -> {
-                            specimenSequenceCount++;
-                            nextSpecimenSequence();
-                            private void registerControls() {
-                                gamepadManager.getGamepad1().getA().setPressedCommand(this::toggleSpeed);
-                                gamepadManager.getGamepad1().getRightBumper().setPressedCommand(this::specimenNextStep);
-                                gamepadManager.getGamepad1().getLeftBumper().setPressedCommand(this::specimenPreviousStep);
-                    }
-
-                }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        switch (specimenSequenceCount) {
+            case 1:
+                IntakeSlide.INSTANCE.in(); // Undo IntakeSlide out
+                break;
+            case 2:
+                IntakeClaw.INSTANCE.close(); // Undo Claw open
+                break;
+            case 3:
+                //IntakeArm.INSTANCE.retract(); // Undo IntakeArm pickup
+                break;
+            case 4:
+                IntakeClaw.INSTANCE.open(); // Undo Claw close
+                break;
+            case 5:
+                IntakeArm.INSTANCE.pickup();
+                break;
+            case 6:
+                IntakeSlide.INSTANCE.out(); // Undo IntakeSlide in
+                break;
+        }
+    }
 
 
 
@@ -167,3 +175,4 @@ public class Teleop extends PedroOpMode {
 
 
 }
+

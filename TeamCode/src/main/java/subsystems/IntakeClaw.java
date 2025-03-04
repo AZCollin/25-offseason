@@ -10,11 +10,11 @@ import java.util.Objects;
 
 import utils.Constants;
 
-public class Claw extends Subsystem {
-    public static final Claw INSTANCE = new Claw();
-    private Claw() {}
+public class IntakeClaw extends Subsystem {
+    public static final IntakeClaw INSTANCE = new IntakeClaw();
+    private IntakeClaw() {}
     public Servo servo;
-    public String name = "claw_servo";
+    public String name = "IntakeClawServo";
     public String state;
 
     @Override
@@ -25,17 +25,17 @@ public class Claw extends Subsystem {
 
     @Override
     public void periodic(){
-        OpModeData.telemetry.addData("Claw State", state);
+        OpModeData.telemetry.addData("IntakeClaw State", state);
     }
 
     public Command open(){
         state = "OPEN";
-        return new ServoToPosition(servo, Constants.ClawOpen, this);
+        return new ServoToPosition(servo, Constants.IntakeClawOpen, this);
     }
 
     public Command close(){
         state = "CLOSE";
-        return new ServoToPosition(servo, Constants.ClawClosed, this);
+        return new ServoToPosition(servo, Constants.IntakeClawClosed, this);
     }
     public Command setPosition(double target){
         return new ServoToPosition(servo, target, this);
