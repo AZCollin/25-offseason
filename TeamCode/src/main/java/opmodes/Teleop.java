@@ -118,10 +118,22 @@ public class Teleop extends PedroOpMode {
                 Claw.INSTANCE.open();
                 break;
 
-        }
-    }
 
+            gamepadManager.getGamepad1().getRightBumper().setPressedCommand(this::specimenNextStep);
+            gamepadManager.getGamepad1().getLeftBumper().setPressedCommand(this::specimenPreviousStep);
 
+            public Command specimenNextStep() {
+                new InstantCommand(
+                        () -> {
+                            specimenSequenceCount++;
+                            nextSpecimenSequence();
+                            private void registerControls() {
+                                gamepadManager.getGamepad1().getA().setPressedCommand(this::toggleSpeed);
+                                gamepadManager.getGamepad1().getRightBumper().setPressedCommand(this::specimenNextStep);
+                                gamepadManager.getGamepad1().getLeftBumper().setPressedCommand(this::specimenPreviousStep);
+                    }
+
+                }
 
 
 
