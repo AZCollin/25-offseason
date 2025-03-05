@@ -14,7 +14,7 @@ public class IntakeClaw extends Subsystem {
     public static final IntakeClaw INSTANCE = new IntakeClaw();
     private IntakeClaw() {}
     public Servo servo;
-    public String name = "IntakeClawServo";
+    public String name = "IntakeClaw";
     public String state;
 
     @Override

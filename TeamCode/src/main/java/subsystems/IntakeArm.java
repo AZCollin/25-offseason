@@ -15,12 +15,14 @@ import com.rowanmcalpin.nextftc.ftc.hardware.controllables.RunToPosition;
 
 import org.jetbrains.annotations.NotNull;
 
+import utils.Constants;
+
 public class IntakeArm extends Subsystem {
     public static final IntakeArm INSTANCE = new IntakeArm();
     private IntakeArm() {}
     public MotorEx motor;
     public double Kf;
-    public PIDFController controller = new PIDFController(0.005,0.0,0.0,new StaticFeedforward(0.0));
+    public PIDFController controller = new PIDFController(0.001,0.0,0.0,new StaticFeedforward(0.05));
     public String name = "IntakeArm";
 
     @Override
@@ -40,7 +42,13 @@ public class IntakeArm extends Subsystem {
     }
 
     public Command pickup(){
-        return new RunToPosition(motor,1000,controller,this);
+        return new RunToPosition(motor, Constants.IntakeArmPickup,controller,this);
+    }
+    public Command transfer(){
+        return new RunToPosition(motor, Constants.IntakeArmTransfer,controller,this);
+    }
+    public Command clip(){
+        return new RunToPosition(motor, Constants.IntakeArmClip,controller,this);
     }
 
     public Command toPosition(double targetPosition){

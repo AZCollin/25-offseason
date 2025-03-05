@@ -8,6 +8,8 @@ import com.rowanmcalpin.nextftc.ftc.hardware.ServoToPosition;
 
 import java.util.Objects;
 
+import utils.Constants;
+
 public class IntakeSlide extends Subsystem {
     public static final IntakeSlide INSTANCE = new IntakeSlide();
     private IntakeSlide() {}
@@ -28,12 +30,12 @@ public class IntakeSlide extends Subsystem {
 
     public Command out(){
         state = "OUT";
-        return new ServoToPosition(servo, 1, this);
+        return new ServoToPosition(servo, Constants.IntakeSlideOut, this);
     }
 
     public Command in(){
         state = "IN";
-        return new ServoToPosition(servo, 0, this);
+        return new ServoToPosition(servo, Constants.IntakeSlideIn, this);
     }
     public Command setPosition(double target){
         return new ServoToPosition(servo, target, this);

@@ -1,6 +1,7 @@
 package opmodes;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.rowanmcalpin.nextftc.core.command.Command;
 import com.rowanmcalpin.nextftc.core.command.groups.SequentialGroup;
@@ -11,14 +12,18 @@ import com.rowanmcalpin.nextftc.ftc.driving.MecanumDriverControlled;
 import com.rowanmcalpin.nextftc.ftc.hardware.controllables.MotorEx;
 import com.rowanmcalpin.nextftc.pedro.PedroOpMode;
 
+import subsystems.Belt;
+import subsystems.Clipper;
 import subsystems.IntakeClaw;
 import subsystems.IntakeArm;
 import subsystems.IntakeSlide;
+import subsystems.OuttakeClaw;
+import subsystems.OuttakeSlide;
 
 @TeleOp(name = "ClipBot")
 public class Teleop extends PedroOpMode {
     public Teleop() {
-        super(IntakeClaw.INSTANCE);
+        super(IntakeClaw.INSTANCE,IntakeSlide.INSTANCE,IntakeArm.INSTANCE, OuttakeSlide.INSTANCE, OuttakeClaw.INSTANCE, Belt.INSTANCE, Clipper.INSTANCE);
     }
 
     public MecanumDriverControlled driver;
@@ -73,12 +78,24 @@ public class Teleop extends PedroOpMode {
 
         driveMotors = new MotorEx[]{frontLeft, frontRight, backLeft, backRight};
 
+        for (MotorEx driveMotor : driveMotors) {
+            driveMotor.getMotor().setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        }
+
+        IntakeArm.INSTANCE.resetEncoderZero();
+
     }
 
     private void registerControls() {
         gamepadManager.getGamepad1().getRightBumper().setPressedCommand(this::specimenNextStep);
         gamepadManager.getGamepad1().getLeftBumper().setPressedCommand(this::specimenPreviousStep);
         gamepadManager.getGamepad1().getA().setPressedCommand(this::toggleSpeed);
+
+        gamepadManager.getGamepad2().getA().setPressedCommand(IntakeClaw.INSTANCE::toggle);
+        gamepadManager.getGamepad2().getB().setPressedCommand(IntakeSlide.INSTANCE::toggle);
+        gamepadManager.getGamepad2().getDpadUp().setPressedCommand(IntakeArm.INSTANCE::pickup);
+        gamepadManager.getGamepad2().getDpadRight().setPressedCommand(IntakeArm.INSTANCE::transfer);
+        gamepadManager.getGamepad2().getDpadDown().setPressedCommand(IntakeArm.INSTANCE::clip);
     }
 
     public boolean slowMode = true;
@@ -101,20 +118,18 @@ public class Teleop extends PedroOpMode {
     }
 
     public Command specimenNextStep() {
-        new InstantCommand(
+        return new InstantCommand(
                 () -> {
                     specimenSequenceCount++;
                     nextSpecimenSequence();
                 }
         );
-        return null;
     }
 
     public Command specimenPreviousStep() {
-        new InstantCommand(
+        return new InstantCommand(
                 this::previousSpecimenSequence
         );
-        return null;
     }
 
     public void nextSpecimenSequence() {

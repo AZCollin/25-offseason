@@ -7,8 +7,8 @@ public class Constants {
 
     // - INTAKE CLAW - //
 
-    public static double IntakeClawOpen = 0.2;
-    public static double IntakeClawClosed = 0.6;
+    public static double IntakeClawOpen = 0.5;
+    public static double IntakeClawClosed = 0.8;
 
    // - OUTTAKE CLAW - //
 
@@ -18,8 +18,14 @@ public class Constants {
     // - OUTTAKE SLIDE - //
 
     // - INTAKE SLIDE - //
+    public static double IntakeSlideOut = 0.05;
+    public static double IntakeSlideIn = 0.6;
 
     // - INTAKE ARM - //
+
+    public static double IntakeArmPickup = -300;
+    public static double IntakeArmTransfer  = 0;
+    public static double IntakeArmClip = 250;
 
     // - BELT - //
 
