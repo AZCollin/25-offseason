@@ -53,6 +53,9 @@ public class Teleop extends PedroOpMode {
         driver = new MecanumDriverControlled(driveMotors, gamepadManager.getGamepad1());
         driver.invoke();
         registerControls();
+
+
+        IntakeClaw.INSTANCE.close(); //Initially close it
     }
 
     @Override
@@ -89,13 +92,18 @@ public class Teleop extends PedroOpMode {
     private void registerControls() {
         gamepadManager.getGamepad1().getRightBumper().setPressedCommand(this::specimenNextStep);
         gamepadManager.getGamepad1().getLeftBumper().setPressedCommand(this::specimenPreviousStep);
+
         gamepadManager.getGamepad1().getA().setPressedCommand(this::toggleSpeed);
 
-        gamepadManager.getGamepad2().getA().setPressedCommand(IntakeClaw.INSTANCE::toggle);
+        gamepadManager.getGamepad2().getA().setPressedCommand(IntakeClaw.INSTANCE::toggle); // When pressed it triggers it so say open
+        gamepadManager.getGamepad2().getA().setReleasedCommand(IntakeClaw.INSTANCE::toggle);  // Then when released it should close it
+        
+
         gamepadManager.getGamepad2().getB().setPressedCommand(IntakeSlide.INSTANCE::toggle);
         gamepadManager.getGamepad2().getDpadUp().setPressedCommand(IntakeArm.INSTANCE::pickup);
         gamepadManager.getGamepad2().getDpadRight().setPressedCommand(IntakeArm.INSTANCE::transfer);
         gamepadManager.getGamepad2().getDpadDown().setPressedCommand(IntakeArm.INSTANCE::clip);
+
     }
 
     public boolean slowMode = true;
