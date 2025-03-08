@@ -37,7 +37,7 @@ public class Clipper extends Subsystem {
     }
 
     public Command pickup(){
-        return new RunToPosition(motor,1000,controller,this);
+        return new RunToPosition(motor,100,controller,this);
     }
 
     public Command toPosition(double targetPosition){
