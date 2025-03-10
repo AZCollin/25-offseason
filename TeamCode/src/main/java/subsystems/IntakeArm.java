@@ -1,5 +1,6 @@
 package subsystems;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.rowanmcalpin.nextftc.core.Subsystem;
 import com.rowanmcalpin.nextftc.core.command.Command;
 import com.rowanmcalpin.nextftc.core.command.utility.NullCommand;
@@ -15,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 import utils.Constants;
-
+@Config
 public class IntakeArm extends Subsystem {
     public static final IntakeArm INSTANCE = new IntakeArm();
     private IntakeArm() {}
@@ -34,6 +35,8 @@ public class IntakeArm extends Subsystem {
     @Override
     public void periodic(){
         OpModeData.telemetry.addData("IntakeArm Position",motor.getCurrentPosition());
+        OpModeData.telemetry.addData("IntakeArm Position",motor.getMotor().getPIDFCoefficients());
+
     }
 
     @Override
