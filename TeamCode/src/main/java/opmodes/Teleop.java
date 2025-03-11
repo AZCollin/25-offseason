@@ -96,13 +96,13 @@ public class Teleop extends PedroOpMode {
 
         gamepadManager.getGamepad1().getA().setPressedCommand(this::toggleSpeed);
 
-        gamepadManager.getGamepad2().getA().setPressedCommand(IntakeClaw.INSTANCE::toggle); // When pressed it triggers it so say open
-        gamepadManager.getGamepad2().getA().setReleasedCommand(IntakeClaw.INSTANCE::toggle);  // Then when released it should close it
+        gamepadManager.getGamepad2().getX().setReleasedCommand(IntakeClaw.INSTANCE::toggle); // When pressed it triggers it so say open
+        gamepadManager.getGamepad2().getX().setPressedCommand(IntakeClaw.INSTANCE::toggle);  // Then when released it should close it
         
 
         gamepadManager.getGamepad2().getB().setPressedCommand(IntakeSlide.INSTANCE::toggle);
-        gamepadManager.getGamepad2().getDpadUp().setPressedCommand(IntakeArm.INSTANCE::pickup);
-        gamepadManager.getGamepad2().getDpadRight().setPressedCommand(IntakeArm.INSTANCE::transfer);
+        gamepadManager.getGamepad2().getY().setPressedCommand(IntakeArm.INSTANCE::pickup);
+        gamepadManager.getGamepad2().getA().setPressedCommand(IntakeArm.INSTANCE::transfer);
         gamepadManager.getGamepad2().getDpadDown().setPressedCommand(IntakeArm.INSTANCE::clip);
 
     }
@@ -144,7 +144,7 @@ public class Teleop extends PedroOpMode {
     public void nextSpecimenSequence() {
         switch (specimenSequenceCount) {
             case 1:
-                IntakeSlide.INSTANCE.out();
+                IntakeArm.INSTANCE.PREPICKUP();
                 break;
             case 2:
                 IntakeClaw.INSTANCE.open();

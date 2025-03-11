@@ -58,6 +58,10 @@ public class IntakeArm extends Subsystem {
         state = "PICKUP";
         return new RunToPosition(motor, Constants.IntakeArmPickup,controller,this);
     }
+    public Command PREPICKUP(){
+        state = "PREPICKUP";
+        return new RunToPosition(motor, Constants.IntakeArmPREPICKUP,controller,this);
+    }
     public Command transfer(){
         state = "TRANSFER";
         return new RunToPosition(motor, Constants.IntakeArmTransfer,controller,this);
