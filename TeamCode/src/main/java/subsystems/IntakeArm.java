@@ -21,8 +21,13 @@ public class IntakeArm extends Subsystem {
     public static final IntakeArm INSTANCE = new IntakeArm();
     private IntakeArm() {}
     public MotorEx motor;
-    public double Kf;
-    public PIDFController controller = new PIDFController(0.001,0.0,0.0,new StaticFeedforward(0.05));
+
+    public static double kP = 0.001, kI = 0, kD = 0, kF = 0;
+    public static double targetTolerance = 10;
+    public static double target = 0;
+
+
+    public PIDFController controller = new PIDFController(kP,kI,kD, v -> kF, targetTolerance);
     public String name = "IntakeArm";
 
     public String state;
@@ -35,8 +40,12 @@ public class IntakeArm extends Subsystem {
     @Override
     public void periodic(){
         OpModeData.telemetry.addData("IntakeArm Position",motor.getCurrentPosition());
-        OpModeData.telemetry.addData("IntakeArm Position",motor.getMotor().getPIDFCoefficients());
 
+        controller.setKP(kP);
+        controller.setKI(kI);
+        controller.setKD(kD);
+        controller.setSetPointTolerance(targetTolerance);
+        controller.setTarget(target);
     }
 
     @Override
