@@ -22,7 +22,7 @@ public class IntakeArm extends Subsystem {
     private IntakeArm() {}
     public MotorEx motor;
 
-    public static double kP = 0.001, kI = 0, kD = 0, kF = 0;
+    public static double kP = 0.005, kI = 0, kD = 0.0008, kF = 0.05;
     public static double targetTolerance = 10;
     public static double target = 0;
 
