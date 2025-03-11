@@ -1,5 +1,7 @@
 package subsystems;
 
+import com.acmerobotics.dashboard.config.Config;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.rowanmcalpin.nextftc.core.Subsystem;
 import com.rowanmcalpin.nextftc.core.command.Command;
 import com.rowanmcalpin.nextftc.core.command.utility.NullCommand;
@@ -11,23 +13,34 @@ import com.rowanmcalpin.nextftc.ftc.hardware.controllables.MotorEx;
 import com.rowanmcalpin.nextftc.ftc.hardware.controllables.RunToPosition;
 
 import org.jetbrains.annotations.NotNull;
-
+@Config
 public class OuttakeSlide extends Subsystem {
     public static final OuttakeSlide INSTANCE = new OuttakeSlide();
+
+
     private OuttakeSlide() {}
     public MotorEx motor;
-    public double Kf;
-    public PIDFController controller = new PIDFController(0.005,0.0,0.0,new StaticFeedforward(0.0));
-    public String name = "OuttakeSlide";
 
+    public double Kf;
+    public static double kP = 0.008, kI = 0, kD = 0.0003, kF = 0.1;
+    public static double targetTolerance = 10;
+    public static double target = 0;
+    public PIDFController controller = new PIDFController(kP,kI,kD, v -> kF, targetTolerance);
+    public String name = "OuttakeSlide";
     @Override
     public void initialize(){
         motor = new MotorEx(name);
     }
 
+
     @Override
     public void periodic(){
         OpModeData.telemetry.addData("OuttakeSlide Position",motor.getCurrentPosition());
+        controller.setKP(kP);
+        controller.setKI(kI);
+        controller.setKD(kD);
+        controller.setSetPointTolerance(targetTolerance);
+        controller.setTarget(target);
     }
 
     @Override

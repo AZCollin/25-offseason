@@ -86,6 +86,7 @@ public class Teleop extends PedroOpMode {
         }
 
         IntakeArm.INSTANCE.resetEncoderZero();
+        OuttakeSlide.INSTANCE.resetEncoderZero();
 
     }
 
