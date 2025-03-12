@@ -27,7 +27,7 @@ public class IntakeArm extends Subsystem {
     public static double targetTolerance = 10;
     public static double target = 0;
 
-    public PIDFController controller = new PIDFController(kP,kI,kD, new ArmFeedforward(kCos, ticks -> ticks / 10345.44), targetTolerance);
+    public PIDFController controller = new PIDFController(kP,kI,kD, new ArmFeedforward(kCos, ticks -> ticks / 537.7), targetTolerance);
     public String name = "IntakeArm";
 
     public String state;
