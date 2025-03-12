@@ -56,7 +56,6 @@ public class OuttakeSlide extends Subsystem {
     }
     public Command resetEncoderZero() {
         motor.setCurrentPosition(0);
-        return new NullCommand();
     }
 
 
