@@ -17,7 +17,6 @@ import org.jetbrains.annotations.NotNull;
 public class OuttakeSlide extends Subsystem {
     public static final OuttakeSlide INSTANCE = new OuttakeSlide();
 
-
     private OuttakeSlide() {}
     public MotorEx motor;
 
@@ -35,11 +34,11 @@ public class OuttakeSlide extends Subsystem {
     @Override
     public void periodic(){
         OpModeData.telemetry.addData("OuttakeSlide Position",motor.getCurrentPosition());
-        controller.setKP(kP);
-        controller.setKI(kI);
-        controller.setKD(kD);
-        controller.setSetPointTolerance(targetTolerance);
-        controller.setTarget(target);
+        //controller.setKP(kP);
+        //controller.setKI(kI);
+        //controller.setKD(kD);
+        //controller.setSetPointTolerance(targetTolerance);
+        //controller.setTarget(target);
     }
 
     @Override
