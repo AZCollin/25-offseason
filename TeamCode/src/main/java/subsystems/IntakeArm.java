@@ -5,6 +5,7 @@ import com.rowanmcalpin.nextftc.core.Subsystem;
 import com.rowanmcalpin.nextftc.core.command.Command;
 import com.rowanmcalpin.nextftc.core.command.utility.NullCommand;
 import com.rowanmcalpin.nextftc.core.control.controllers.PIDFController;
+import com.rowanmcalpin.nextftc.core.control.controllers.feedforward.ArmFeedforward;
 import com.rowanmcalpin.nextftc.core.control.controllers.feedforward.StaticFeedforward;
 import com.rowanmcalpin.nextftc.ftc.OpModeData;
 import com.rowanmcalpin.nextftc.ftc.hardware.controllables.HoldPosition;
@@ -22,12 +23,11 @@ public class IntakeArm extends Subsystem {
     private IntakeArm() {}
     public MotorEx motor;
 
-    public static double kP = 0.005, kI = 0, kD = 0.0008, kF = 0.05;
+    public static double kP = 0.005, kI = 0, kD = 0.0008, kCos = 0.1;
     public static double targetTolerance = 10;
     public static double target = 0;
 
-
-    public PIDFController controller = new PIDFController(kP,kI,kD, v -> kF, targetTolerance);
+    public PIDFController controller = new PIDFController(kP,kI,kD, new ArmFeedforward(kCos, ticks -> ticks / 537.7), targetTolerance);
     public String name = "IntakeArm";
 
     public String state;
@@ -41,11 +41,11 @@ public class IntakeArm extends Subsystem {
     public void periodic(){
         OpModeData.telemetry.addData("IntakeArm Position",motor.getCurrentPosition());
 
-        controller.setKP(kP);
-        controller.setKI(kI);
-        controller.setKD(kD);
-        controller.setSetPointTolerance(targetTolerance);
-        controller.setTarget(target);
+        //controller.setKP(kP);
+        //controller.setKI(kI);
+        //controller.setKD(kD);
+        //controller.setSetPointTolerance(targetTolerance);
+        //controller.setTarget(target);
     }
 
     @Override
@@ -53,7 +53,6 @@ public class IntakeArm extends Subsystem {
     public Command getDefaultCommand(){
         return new HoldPosition(motor, controller,this);
     }
-
     public Command pickup(){
         state = "PICKUP";
         return new RunToPosition(motor, Constants.IntakeArmPickup,controller,this);
@@ -75,7 +74,6 @@ public class IntakeArm extends Subsystem {
     }
     public void resetEncoderZero() {
         motor.setCurrentPosition(0);
-        new NullCommand();
     }
 
     public Command toggleSpecimen(){
@@ -95,5 +93,4 @@ public class IntakeArm extends Subsystem {
             return pickup();
         }
     }
-
 }
