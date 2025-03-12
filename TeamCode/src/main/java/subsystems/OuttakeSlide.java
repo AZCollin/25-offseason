@@ -34,11 +34,6 @@ public class OuttakeSlide extends Subsystem {
     @Override
     public void periodic(){
         OpModeData.telemetry.addData("OuttakeSlide Position",motor.getCurrentPosition());
-        //controller.setKP(kP);
-        //controller.setKI(kI);
-        //controller.setKD(kD);
-        //controller.setSetPointTolerance(targetTolerance);
-        //controller.setTarget(target);
     }
 
     @Override
@@ -54,7 +49,7 @@ public class OuttakeSlide extends Subsystem {
     public Command toPosition(double targetPosition){
         return new RunToPosition(motor,targetPosition,controller,this);
     }
-    public Command resetEncoderZero() {
+    public void resetEncoderZero() {
         motor.setCurrentPosition(0);
     }
 

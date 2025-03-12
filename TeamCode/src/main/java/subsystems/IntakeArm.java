@@ -1,5 +1,6 @@
 package subsystems;
 
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.rowanmcalpin.nextftc.core.Subsystem;
 import com.rowanmcalpin.nextftc.core.command.Command;
@@ -35,6 +36,7 @@ public class IntakeArm extends Subsystem {
     @Override
     public void initialize(){
         motor = new MotorEx(name);
+
     }
 
     @Override
@@ -43,10 +45,10 @@ public class IntakeArm extends Subsystem {
         OpModeData.telemetry.addData("IntakeArm Position1", motor.getMotor().getCurrentPosition());
         OpModeData.telemetry.addData("IntakeArm Target", motor.getMotor().getTargetPosition());
 
-        //controller.setKP(kP);
-        //controller.setKI(kI);
-        //controller.setKD(kD);
-        //controller.setSetPointTolerance(targetTolerance);
+        controller.setKP(kP);
+        controller.setKI(kI);
+        controller.setKD(kD);
+        controller.setSetPointTolerance(targetTolerance);
         //controller.setTarget(target);
     }
 
