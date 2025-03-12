@@ -144,7 +144,7 @@ public class Teleop extends PedroOpMode {
     public void nextSpecimenSequence() {
         switch (specimenSequenceCount) {
             case 1:
-                IntakeArm.INSTANCE.PREPICKUP();
+                IntakeArm.INSTANCE.PrePickup();
                 break;
             case 2:
                 IntakeClaw.INSTANCE.open();
@@ -172,23 +172,21 @@ public class Teleop extends PedroOpMode {
 
         switch (specimenSequenceCount) {
             case 1:
-                IntakeSlide.INSTANCE.in(); // Undo IntakeSlide out
+                IntakeArm.INSTANCE.transfer();
                 break;
             case 2:
-                IntakeClaw.INSTANCE.close(); // Undo Claw open
+                IntakeClaw.INSTANCE.close();
                 break;
             case 3:
-                //IntakeArm.INSTANCE.retract(); // Undo IntakeArm pickup
+                IntakeArm.INSTANCE.PrePickup();
                 break;
             case 4:
-                IntakeClaw.INSTANCE.open(); // Undo Claw close
+                IntakeClaw.INSTANCE.open();
                 break;
             case 5:
-                IntakeArm.INSTANCE.pickup();
+                //IntakeArm.INSTANCE.retract();
                 break;
             case 6:
-                IntakeSlide.INSTANCE.out(); // Undo IntakeSlide in
-                break;
         }
     }
 

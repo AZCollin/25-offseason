@@ -24,9 +24,9 @@ public class Constants {
     // - INTAKE ARM - //
 
     public static double IntakeArmPickup = -300;
-    public static double IntakeArmTransfer  = -3000;
+    public static double IntakeArmTransfer  = 100;
     public static double IntakeArmClip = 250;
-    public static double IntakeArmPREPICKUP = -300;
+    public static double IntakeArmPrePickup = -300;
 
     // - BELT - //
 
