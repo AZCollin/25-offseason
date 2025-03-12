@@ -39,9 +39,10 @@ public class IntakeArm extends Subsystem {
 
     @Override
     public void periodic(){
-        OpModeData.telemetry.addData("IntakeArm Position",motor.getCurrentPosition());
-        OpModeData.telemetry.addData("IntakeArm Position1",motor.getMotor().getCurrentPosition());
+        OpModeData.telemetry.addData("IntakeArm Position", motor.getCurrentPosition());
+        OpModeData.telemetry.addData("IntakeArm Position1", motor.getMotor().getCurrentPosition());
         OpModeData.telemetry.addData("IntakeArm Target", motor.getMotor().getTargetPosition());
+
         //controller.setKP(kP);
         //controller.setKI(kI);
         //controller.setKD(kD);

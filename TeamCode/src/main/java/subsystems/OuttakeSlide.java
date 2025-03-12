@@ -25,13 +25,12 @@ public class OuttakeSlide extends Subsystem {
     public static double kP = 0.008, kI = 0, kD = 0.0003, kF = 0.1;
     public static double targetTolerance = 10;
     public static double target = 0;
-    public PIDFController controller = new PIDFController(kP,kI,kD, v -> kF, targetTolerance);
+    public PIDFController controller = new PIDFController(kP,kI,kD, new StaticFeedforward(kF), targetTolerance);
     public String name = "OuttakeSlide";
     @Override
     public void initialize(){
         motor = new MotorEx(name);
     }
-
 
     @Override
     public void periodic(){

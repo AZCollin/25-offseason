@@ -103,6 +103,8 @@ public class Teleop extends PedroOpMode {
         gamepadManager.getGamepad2().getY().setPressedCommand(IntakeArm.INSTANCE::pickup);
         gamepadManager.getGamepad2().getA().setPressedCommand(IntakeArm.INSTANCE::transfer);
         gamepadManager.getGamepad2().getDpadDown().setPressedCommand(IntakeArm.INSTANCE::clip);
+
+        gamepadManager.getGamepad2().getDpadUp().setPressedCommand(OuttakeSlide.INSTANCE::pickup);
     }
 
     public boolean slowMode = true;
