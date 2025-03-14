@@ -23,7 +23,14 @@ import subsystems.OuttakeSlide;
 @TeleOp(name = "ClipBot")
 public class Teleop extends PedroOpMode {
     public Teleop() {
-        super(IntakeClaw.INSTANCE,IntakeSlide.INSTANCE,IntakeArm.INSTANCE, OuttakeSlide.INSTANCE, OuttakeClaw.INSTANCE, Belt.INSTANCE, Clipper.INSTANCE);
+        super(IntakeClaw.INSTANCE,
+                IntakeSlide.INSTANCE,
+                IntakeArm.INSTANCE,
+                OuttakeSlide.INSTANCE,
+                OuttakeClaw.INSTANCE,
+                Belt.INSTANCE,
+                Clipper.INSTANCE,
+                RandomSlide.INSTANCE);
     }
 
     public MecanumDriverControlled driver;
@@ -87,6 +94,7 @@ public class Teleop extends PedroOpMode {
 
         IntakeArm.INSTANCE.resetEncoderZero();
         OuttakeSlide.INSTANCE.resetEncoderZero();
+        RandomSlide.INSTANCE.resetEncoderZero();
 
     }
 
@@ -104,7 +112,7 @@ public class Teleop extends PedroOpMode {
         gamepadManager.getGamepad2().getA().setPressedCommand(IntakeArm.INSTANCE::transfer);
         gamepadManager.getGamepad2().getDpadDown().setPressedCommand(IntakeArm.INSTANCE::clip);
 
-        gamepadManager.getGamepad2().getDpadUp().setPressedCommand(OuttakeSlide.INSTANCE::pickup);
+        gamepadManager.getGamepad2().getDpadUp().setPressedCommand(RandomSlide.INSTANCE::pickup);
     }
 
     public boolean slowMode = true;
