@@ -29,8 +29,7 @@ public class Teleop extends PedroOpMode {
                 OuttakeSlide.INSTANCE,
                 OuttakeClaw.INSTANCE,
                 Belt.INSTANCE,
-                Clipper.INSTANCE,
-                RandomSlide.INSTANCE);
+                Clipper.INSTANCE);
     }
 
     public MecanumDriverControlled driver;
@@ -94,7 +93,6 @@ public class Teleop extends PedroOpMode {
 
         IntakeArm.INSTANCE.resetEncoderZero();
         OuttakeSlide.INSTANCE.resetEncoderZero();
-        RandomSlide.INSTANCE.resetEncoderZero();
 
     }
 
@@ -112,7 +110,7 @@ public class Teleop extends PedroOpMode {
         gamepadManager.getGamepad2().getA().setPressedCommand(IntakeArm.INSTANCE::transfer);
         gamepadManager.getGamepad2().getDpadDown().setPressedCommand(IntakeArm.INSTANCE::clip);
 
-        gamepadManager.getGamepad2().getDpadUp().setPressedCommand(RandomSlide.INSTANCE::pickup);
+        //gamepadManager.getGamepad2().getDpadUp().setPressedCommand(RandomSlide.INSTANCE::pickup);
     }
 
     public boolean slowMode = true;

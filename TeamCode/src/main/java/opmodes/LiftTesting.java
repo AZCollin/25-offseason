@@ -7,7 +7,7 @@ import com.rowanmcalpin.nextftc.pedro.PedroOpMode;
 import subsystems.IntakeArm;
 import subsystems.Lift;
 
-@TeleOp(name = "ArmTesting")
+@TeleOp(name = "LiftTesting")
 public class LiftTesting extends PedroOpMode {
     public LiftTesting() {
         super(Lift.INSTANCE);
