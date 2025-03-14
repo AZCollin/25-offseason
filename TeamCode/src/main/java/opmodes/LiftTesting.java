@@ -38,9 +38,9 @@ public class LiftTesting extends PedroOpMode {
     public void mecanumDriveInit() {}
 
     private void registerControls() {
-        gamepadManager.getGamepad2().getY().setPressedCommand(Lift.INSTANCE::toHigh);
+        //gamepadManager.getGamepad2().getY().setPressedCommand(Lift.INSTANCE::toHigh);
         gamepadManager.getGamepad2().getB().setPressedCommand(Lift.INSTANCE::toMiddle);
-        gamepadManager.getGamepad2().getA().setPressedCommand(Lift.INSTANCE::toLow);
+        //gamepadManager.getGamepad2().getA().setPressedCommand(Lift.INSTANCE::toLow);
     }
 }
 
