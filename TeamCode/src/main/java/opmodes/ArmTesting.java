@@ -19,23 +19,24 @@ import subsystems.IntakeClaw;
 import subsystems.IntakeSlide;
 import subsystems.OuttakeClaw;
 import subsystems.OuttakeSlide;
+import subsystems.lib.IntakeArmFix;
 
 @TeleOp(name = "ArmTesting")
 public class ArmTesting extends PedroOpMode {
     public ArmTesting() {
-        super(IntakeArm.INSTANCE);
+        super(IntakeArmFix.INSTANCE);
     }
     @Override
     public void onInit() {
         OpModeData.telemetry = telemetry;
         mecanumDriveInit();
         telemetry.update();
+
+        IntakeArmFix.INSTANCE.resetEncoderZero();
     }
 
     @Override
-    public void onWaitForStart() {
-
-    }
+    public void onWaitForStart() {}
 
     @Override
     public void onStartButtonPressed() {
@@ -48,18 +49,16 @@ public class ArmTesting extends PedroOpMode {
     }
 
     @Override
-    public void onStop() {
-
-    }
+    public void onStop() {}
 
     public void mecanumDriveInit() {
-        IntakeArm.INSTANCE.resetEncoderZero();
+        IntakeArmFix.INSTANCE.resetEncoderZero();
     }
 
     private void registerControls() {
-        gamepadManager.getGamepad2().getY().setPressedCommand(IntakeArm.INSTANCE::pickup);
-        gamepadManager.getGamepad2().getA().setPressedCommand(IntakeArm.INSTANCE::transfer);
-        gamepadManager.getGamepad2().getDpadDown().setPressedCommand(IntakeArm.INSTANCE::clip);
+        //gamepadManager.getGamepad2().getY().setPressedCommand(IntakeArmFix.INSTANCE::pickup);
+        //gamepadManager.getGamepad2().getA().setPressedCommand(IntakeArmFix.INSTANCE::transfer);
+        //gamepadManager.getGamepad2().getDpadDown().setPressedCommand(IntakeArmFix.INSTANCE::clip);
     }
 }
 

@@ -1,6 +1,10 @@
 package subsystems;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.rowanmcalpin.nextftc.core.Subsystem;
 import com.rowanmcalpin.nextftc.core.command.Command;
 import com.rowanmcalpin.nextftc.core.command.utility.NullCommand;
@@ -13,23 +17,35 @@ import com.rowanmcalpin.nextftc.ftc.hardware.controllables.RunToPosition;
 
 import org.jetbrains.annotations.NotNull;
 
+@Config
 public class Belt extends Subsystem {
     public static final Belt INSTANCE = new Belt();
     private Belt() {}
     public MotorEx motor;
-    public double Kf;
-    public PIDFController controller = new PIDFController(0.005,0.0,0.0,new StaticFeedforward(0.0));
+    public static double kP = 0.005, kI = 0, kD = 0.0, kF = 0.0, threshold = 10.0;
+    public static double target = 0;
+    public PIDFController controller = new PIDFController(kP,kI,kD,new StaticFeedforward(kF), threshold);
     public String name = "Belt";
 
     @Override
     public void initialize(){
         motor = new MotorEx(name);
-
+        motor.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
     @Override
     public void periodic(){
-        OpModeData.telemetry.addData("Belt Position",motor.getCurrentPosition());
+        OpModeData.telemetry = new MultipleTelemetry(OpModeData.telemetry, FtcDashboard.getInstance().getTelemetry());
+
+        controller.setKD(kD);
+        controller.setKP(kP);
+        controller.setKI(kI);
+        controller.setTarget(target);
+        controller.setSetPointTolerance(threshold);
+
+        OpModeData.telemetry.addData("belt pos: ", motor.getCurrentPosition());
+        OpModeData.telemetry.addData("belt target: ", target);
+        FtcDashboard.getInstance().getTelemetry().update();
     }
 
     @Override
@@ -39,29 +55,17 @@ public class Belt extends Subsystem {
     }
 
     public Command pickup(){
-        return new RunToPosition(motor,1000,controller,this);
+        return new RunToPosition(motor,target,controller,this);
     }
 
     public Command toPosition(double targetPosition){
         return new RunToPosition(motor,targetPosition,controller,this);
     }
-    public Command resetEncoderZero() {
-        motor.setCurrentPosition(0);
-        return new NullCommand();
+    public void resetEncoderZero() {
+        motor.resetEncoder();
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    public double getPosition(){
+        return motor.getCurrentPosition();
+    }
 }

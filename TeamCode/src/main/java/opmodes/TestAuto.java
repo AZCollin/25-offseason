@@ -2,6 +2,7 @@ package opmodes;
 
 import com.pedropathing.follower.Follower;
 import com.pedropathing.util.Constants;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.rowanmcalpin.nextftc.core.command.CommandManager;
 import com.rowanmcalpin.nextftc.core.command.groups.SequentialGroup;
 import com.rowanmcalpin.nextftc.ftc.OpModeData;
@@ -12,14 +13,16 @@ import pedroPathing.constants.LConstants;
 import routines.BucketRoutines;
 import subsystems.IntakeClaw;
 import subsystems.IntakeArm;
+import subsystems.lib.Lift;
 import utils.TrajectoryBuilder;
 
+@Autonomous(name = "TestAuto")
 public class TestAuto extends PedroOpMode {
     private final FConstants fConstants = new FConstants();
     private final LConstants lConstants = new LConstants();
 
     public TestAuto(){
-        super(IntakeClaw.INSTANCE, IntakeArm.INSTANCE);
+        super(IntakeClaw.INSTANCE, IntakeArm.INSTANCE, Lift.INSTANCE);
     }
 
     @Override
@@ -51,7 +54,7 @@ public class TestAuto extends PedroOpMode {
         CommandManager.INSTANCE.scheduleCommand(
                 new SequentialGroup(
 
-                        BucketRoutines.firstSample()
+                        BucketRoutines.testLift()
                         //BucketRoutines.secondSample(),
                         //BucketRoutines.thirdSample(),
                         //BucketRoutines.fourthSample(),

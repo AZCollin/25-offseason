@@ -77,6 +77,7 @@ public class IntakeArm extends Subsystem {
         return new RunToPosition(motor,targetPosition,controller,this);
     }
     public void resetEncoderZero() {
+        motor.resetEncoder();
         motor.setCurrentPosition(0);
     }
 
