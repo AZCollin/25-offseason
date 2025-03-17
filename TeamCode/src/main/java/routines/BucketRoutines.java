@@ -23,14 +23,9 @@ public class BucketRoutines {
     }
 
     public static Command testLift() {
-        return new SequentialGroup(
+        return new ParallelGroup(
                 Lift.INSTANCE.toHigh(),
-                new Delay(TimeSpan.fromMs(500)),
-                Lift.INSTANCE.toMiddle(),
-                new Delay(TimeSpan.fromMs(2000)),
-                IntakeClaw.INSTANCE.open(),
-                new Delay(TimeSpan.fromMs(500)),
-                Lift.INSTANCE.toLow()
+                IntakeClaw.INSTANCE.open()
         );
     }
 }
