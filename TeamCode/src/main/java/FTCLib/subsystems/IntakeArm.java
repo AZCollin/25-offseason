@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.arcrobotics.ftclib.controller.PIDFController;
 
 import FTCLib.Bot;
+import utils.Constants;
 
 @Config
 public class IntakeArm extends SubsystemBase {
@@ -36,11 +37,14 @@ public class IntakeArm extends SubsystemBase {
 
         bot.telem.addData("IntakeArm Angle", pivotAngle - adjustment);
         bot.telem.addData("IntakeArm Target", target);
-        bot.telem.update();
     }
 
     public void setTarget(double target) {
         this.target = Math.max(minAngle, Math.min(maxAngle, target));
+    }
+
+    public void pickup() {
+        this.target = Math.max(minAngle, Math.min(maxAngle, Constants.IntakeArmPickup));
     }
 
     public double getTarget() {

@@ -38,7 +38,6 @@ public class OuttakeSlide extends SubsystemBase {
         // Telemetry for debugging
         bot.telem.addData("Slide Position", currentPosition);
         bot.telem.addData("Slide Target", target);
-        bot.telem.update();
     }
 
     public void setTarget(double target) {

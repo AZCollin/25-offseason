@@ -58,6 +58,8 @@ public class FTCLIBTeleop extends CommandOpMode {
                 () -> 1.0
         );
 
+        Button speedToggle = (new GamepadButton(driverGamepad, GamepadKeys.Button.RIGHT_BUMPER)).whenPressed(drivetrain::speedToggle);
+
         register(drivetrain);
         drivetrain.setDefaultCommand(driveCommand);
 
@@ -69,9 +71,10 @@ public class FTCLIBTeleop extends CommandOpMode {
         Button intakeSlideToggle = (new GamepadButton(driverGamepad, GamepadKeys.Button.B)).whenPressed(intakeSlide::toggle);
         register(intakeSlide);
 
-        //intakeArm = bot.getIntakeArm();
-        //Button intakeArmToggle = (new GamepadButton(driverGamepad, GamepadKeys.Button.X)).whenPressed(intakeArm::);
-        //register(intakeArm);
+        intakeArm = bot.getIntakeArm();
+        Button intakeArmPickup = (new GamepadButton(driverGamepad, GamepadKeys.Button.DPAD_LEFT)).whenPressed(intakeArm::pickup);
+        register(intakeArm);
 
+        bot.telem.update();
     }
 }
