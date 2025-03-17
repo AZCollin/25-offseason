@@ -15,7 +15,7 @@ public class IntakeArm extends SubsystemBase {
     private final DcMotor intakeArm;
     private final PIDFController controller;
     public static double kP = 0.0, kI = 0.0, kD = 0.0, kF = 0.0;
-    public double target = 0.0, minAngle = 0.0, maxAngle = 260, adjustment = 90;
+    public static double target = 0.0, minAngle = 0.0, maxAngle = 260, adjustment = 90;
 
     public double ticksInDegrees = 537.7 / 360.0;
 

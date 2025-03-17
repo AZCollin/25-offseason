@@ -2,6 +2,7 @@ package subsystems;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.arcrobotics.ftclib.controller.PIDFController;
 import com.rowanmcalpin.nextftc.core.Subsystem;
 import com.rowanmcalpin.nextftc.core.command.Command;
 import com.rowanmcalpin.nextftc.core.command.groups.SequentialGroup;
@@ -27,15 +28,30 @@ import dev.nextftc.nextcontrol.interpolators.ConstantInterpolator;
 public class Lift extends Subsystem {
     // BOILERPLATE
     public static final Lift INSTANCE = new Lift();
-    private Lift() { }
+
     public static PIDCoefficients coefficients = new PIDCoefficients(0.05, 0.0, 0.0);
-    public static double kF = 0.0, tolerance = 10;
+    //public static double kF = 0.0, tolerance = 10;
     public static double targetPos = 0.0;
+
+    private final PIDFController controller;
+    public static double kP = 0.0, kI = 0.0, kD = 0.0, kF = 0.0;
+    public double target = 0.0, minExtension = 0.0, maxExtension = 1000;
 
     // USER CODE
     public MotorEx motor;
 
     public String name = "OuttakeSlide";
+
+    public Lift() {
+        controller = new PIDFController(kP, kI, kD, kF);
+    }
+
+    public Command toMiddle() {
+        return new SequentialGroup(
+                new InstantCommand(() -> { target = 500; }),
+                new WaitUntil(() -> Math.abs(motor.getCurrentPosition() - target) <= 10)
+        );
+    }
 
 //    public ControlSystem controlSystem = new ControlSystem(
 //            new PIDElement(PIDType.POSITION, coefficients),
@@ -72,9 +88,30 @@ public class Lift extends Subsystem {
 //        controlSystem.setGoal(new KineticState(targetPos));
 //        motor.setPower(controlSystem.calculate());
 
+        int currentPosition = motor.getMotor().getCurrentPosition();
+
+        controller.setPIDF(kP, kI, kD, kF);
+        controller.setF(kF);
+
+        double power = controller.calculate(currentPosition, targetPos);
+
+        motor.setPower(power);
+
         OpModeData.telemetry.addData("pos: ", motor.getCurrentPosition());
         OpModeData.telemetry.addData("target: ", targetPos);
         OpModeData.telemetry.update();
 
+    }
+
+    public void setTarget(double target) {
+        this.target = Math.max(minExtension, Math.min(maxExtension, target));
+    }
+
+    public double getTarget() {
+        return target;
+    }
+
+    public double getPosition(){
+        return motor.getMotor().getCurrentPosition();
     }
 }
