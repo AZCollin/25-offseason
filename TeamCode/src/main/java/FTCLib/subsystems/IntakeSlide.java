@@ -16,9 +16,7 @@ public class IntakeSlide extends SubsystemBase {
 
     public IntakeSlide(Bot bot) {
         this.bot = bot;
-
         intakeSlide = bot.hardwareMap.get(Servo.class, "intakeSlide");
-
     }
 
     public void intake() {

@@ -72,6 +72,5 @@ public class FTCLIBTeleop extends CommandOpMode {
         //intakeArm = bot.getIntakeArm();
         //Button intakeArmToggle = (new GamepadButton(driverGamepad, GamepadKeys.Button.X)).whenPressed(intakeArm::);
         //register(intakeArm);
-
     }
 }
