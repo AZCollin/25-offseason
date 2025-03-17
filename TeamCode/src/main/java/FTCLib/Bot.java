@@ -31,10 +31,10 @@ public class Bot extends Robot {
         this.hardwareMap = hardwareMap;
 
         imu = hardwareMap.get(IMU.class, "imu");
-        imu.initialize(new IMU.Parameters(
-                new RevHubOrientationOnRobot(
-                        RevHubOrientationOnRobot.LogoFacingDirection.DOWN,
-                        RevHubOrientationOnRobot.UsbFacingDirection.UP)));
+//        imu.initialize(new IMU.Parameters(
+//                new RevHubOrientationOnRobot(
+//                        RevHubOrientationOnRobot.LogoFacingDirection.DOWN,
+//                        RevHubOrientationOnRobot.UsbFacingDirection.UP)));
 
         if (enableDrive) {
             drivetrain = new MecanumDrivetrain(this);

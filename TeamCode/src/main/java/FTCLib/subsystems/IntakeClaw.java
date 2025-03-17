@@ -17,7 +17,7 @@ public class IntakeClaw extends SubsystemBase {
     public IntakeClaw(Bot bot) {
         this.bot = bot;
 
-        intakeSlide = bot.hardwareMap.get(Servo.class, "intakeSlide");
+        intakeSlide = bot.hardwareMap.get(Servo.class, "IntakeClaw");
 
     }
 

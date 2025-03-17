@@ -20,7 +20,7 @@ public class IntakeArm extends SubsystemBase {
 
     public IntakeArm(Bot bot) {
         this.bot = bot;
-        intakeArm = bot.hardwareMap.get(DcMotor.class, "intakeArm");
+        intakeArm = bot.hardwareMap.get(DcMotor.class, "IntakeArm");
         controller = new PIDFController(kP, kI, kD, kF);
     }
 

@@ -20,7 +20,7 @@ public class OuttakeSlide extends SubsystemBase {
 
     public OuttakeSlide(Bot bot) {
         this.bot = bot;
-        outtakeSlide = bot.hardwareMap.get(DcMotor.class, "outtakeSlide");
+        outtakeSlide = bot.hardwareMap.get(DcMotor.class, "OuttakeSlide");
         controller = new PIDFController(kP, kI, kD, kF);
     }
 
