@@ -1,6 +1,5 @@
 package subsystems;
 
-import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.rowanmcalpin.nextftc.core.Subsystem;
@@ -24,7 +23,7 @@ import dev.nextftc.nextcontrol.feedback.PIDType;
 import dev.nextftc.nextcontrol.filters.FilterElement;
 import dev.nextftc.nextcontrol.interpolators.ConstantInterpolator;
 
-@Config
+
 public class Lift extends Subsystem {
     // BOILERPLATE
     public static final Lift INSTANCE = new Lift();
@@ -38,28 +37,28 @@ public class Lift extends Subsystem {
 
     public String name = "OuttakeSlide";
 
-    ControlSystem controlSystem = new ControlSystem(
-            new PIDElement(PIDType.POSITION, coefficients),
-            kineticState -> kF,
-            new FilterElement(value -> value, value -> value, value -> value),
-            new ConstantInterpolator(new KineticState())
-    );
+//    public ControlSystem controlSystem = new ControlSystem(
+//            new PIDElement(PIDType.POSITION, coefficients),
+//            kineticState -> kF,
+//            new FilterElement(value -> value, value -> value, value -> value),
+//            new ConstantInterpolator(new KineticState())
+//    );
 
-    public Command toMiddle() {
-        return new SequentialGroup(
-                new InstantCommand(() -> { controlSystem.setGoal(new KineticState(500));}),
-                new WaitUntil(() -> controlSystem.isWithinTolerance(tolerance))
-        );
-    }
+//    public Command toMiddle() {
+//        return new SequentialGroup(
+//                new InstantCommand(() -> { controlSystem.setGoal(new KineticState(500));}),
+//                new WaitUntil(() -> controlSystem.isWithinTolerance(tolerance))
+//        );
+//    }
 
-    @Override
-    @NotNull
-    public Command getDefaultCommand(){
-        return new SequentialGroup(
-                new InstantCommand(() -> { controlSystem.setGoal(new KineticState(targetPos));}),
-                new WaitUntil(() -> controlSystem.isWithinTolerance(tolerance))
-        );
-    }
+//    @Override
+//    @NotNull
+//    public Command getDefaultCommand(){
+//        return new SequentialGroup(
+//                new InstantCommand(() -> { controlSystem.setGoal(new KineticState(targetPos));}),
+//                new WaitUntil(() -> controlSystem.isWithinTolerance(tolerance))
+//        );
+//    }
 
     @Override
     public void initialize() {
@@ -68,10 +67,10 @@ public class Lift extends Subsystem {
 
     @Override
     public void periodic(){
-        OpModeData.telemetry = new MultipleTelemetry(OpModeData.telemetry, FtcDashboard.getInstance().getTelemetry());
+        //OpModeData.telemetry = new MultipleTelemetry(OpModeData.telemetry, FtcDashboard.getInstance().getTelemetry());
 
-        controlSystem.setGoal(new KineticState(targetPos));
-        motor.setPower(controlSystem.calculate());
+//        controlSystem.setGoal(new KineticState(targetPos));
+//        motor.setPower(controlSystem.calculate());
 
         OpModeData.telemetry.addData("pos: ", motor.getCurrentPosition());
         OpModeData.telemetry.addData("target: ", targetPos);

@@ -4,7 +4,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.rowanmcalpin.nextftc.ftc.OpModeData;
 import com.rowanmcalpin.nextftc.pedro.PedroOpMode;
 
-import subsystems.IntakeArm;
 import subsystems.Lift;
 
 @TeleOp(name = "LiftTesting")
@@ -39,7 +38,7 @@ public class LiftTesting extends PedroOpMode {
 
     private void registerControls() {
         //gamepadManager.getGamepad2().getY().setPressedCommand(Lift.INSTANCE::toHigh);
-        gamepadManager.getGamepad2().getB().setPressedCommand(Lift.INSTANCE::toMiddle);
+        //gamepadManager.getGamepad2().getB().setPressedCommand(Lift.INSTANCE::toMiddle);
         //gamepadManager.getGamepad2().getA().setPressedCommand(Lift.INSTANCE::toLow);
     }
 }
