@@ -27,7 +27,7 @@ public class IntakeClaw extends SubsystemBase {
     }
 
     public void close() {
-        intakeSlide.setPosition(Constants.IntakeClawOpen);
+        intakeSlide.setPosition(Constants.IntakeClawClosed);
         state = IntakeSlideState.CLOSED;
     }
 
@@ -38,5 +38,4 @@ public class IntakeClaw extends SubsystemBase {
             open();
         }
     }
-
 }

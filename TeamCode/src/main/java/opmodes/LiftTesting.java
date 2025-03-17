@@ -4,17 +4,16 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.rowanmcalpin.nextftc.ftc.OpModeData;
 import com.rowanmcalpin.nextftc.pedro.PedroOpMode;
 
-import subsystems.Lift;
+import subsystems.NextLift;
 
 @TeleOp(name = "LiftTesting")
 public class LiftTesting extends PedroOpMode {
     public LiftTesting() {
-        super(Lift.INSTANCE);
+        super(NextLift.INSTANCE);
     }
     @Override
     public void onInit() {
         OpModeData.telemetry = telemetry;
-        mecanumDriveInit();
         telemetry.update();
     }
 
@@ -34,11 +33,9 @@ public class LiftTesting extends PedroOpMode {
     @Override
     public void onStop() {}
 
-    public void mecanumDriveInit() {}
-
     private void registerControls() {
         //gamepadManager.getGamepad2().getY().setPressedCommand(Lift.INSTANCE::toHigh);
-        gamepadManager.getGamepad2().getB().setPressedCommand(Lift.INSTANCE::toMiddle);
+        //gamepadManager.getGamepad2().getB().setPressedCommand(Lift.INSTANCE::toMiddle);
         //gamepadManager.getGamepad2().getA().setPressedCommand(Lift.INSTANCE::toLow);
     }
 }

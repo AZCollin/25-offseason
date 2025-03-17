@@ -1,8 +1,10 @@
 package subsystems;
 
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.arcrobotics.ftclib.controller.PIDFController;
+
 import com.rowanmcalpin.nextftc.core.Subsystem;
 import com.rowanmcalpin.nextftc.core.command.Command;
 import com.rowanmcalpin.nextftc.core.command.groups.SequentialGroup;
@@ -24,7 +26,7 @@ import dev.nextftc.nextcontrol.feedback.PIDType;
 import dev.nextftc.nextcontrol.filters.FilterElement;
 import dev.nextftc.nextcontrol.interpolators.ConstantInterpolator;
 
-
+@Config
 public class Lift extends Subsystem {
     // BOILERPLATE
     public static final Lift INSTANCE = new Lift();
@@ -34,8 +36,8 @@ public class Lift extends Subsystem {
     public static double targetPos = 0.0;
 
     private final PIDFController controller;
-    public static double kP = 0.0, kI = 0.0, kD = 0.0, kF = 0.0;
-    public double target = 0.0, minExtension = 0.0, maxExtension = 1000;
+    public static double kP = 0.005, kI = 0.0002, kD = 0.0002, kF = 0.0002;
+    public double target = 0.0, minExtension = 0.0, maxExtension = 1700;
 
     // USER CODE
     public MotorEx motor;
@@ -83,7 +85,7 @@ public class Lift extends Subsystem {
 
     @Override
     public void periodic(){
-        //OpModeData.telemetry = new MultipleTelemetry(OpModeData.telemetry, FtcDashboard.getInstance().getTelemetry());
+        OpModeData.telemetry = new MultipleTelemetry(OpModeData.telemetry, FtcDashboard.getInstance().getTelemetry());
 
 //        controlSystem.setGoal(new KineticState(targetPos));
 //        motor.setPower(controlSystem.calculate());
