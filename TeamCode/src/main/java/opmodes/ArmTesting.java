@@ -18,7 +18,7 @@ public class ArmTesting extends PedroOpMode {
         mecanumDriveInit();
         telemetry.update();
 
-        IntakeArmTest.INSTANCE.resetEncoderZero();
+        IntakeArmLib.INSTANCE.resetEncoderZero();
     }
 
     @Override
