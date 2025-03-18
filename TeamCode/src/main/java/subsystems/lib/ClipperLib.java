@@ -3,9 +3,7 @@ package subsystems.lib;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
-import com.arcrobotics.ftclib.controller.PIDFController;
-
-import com.qualcomm.robotcore.hardware.DcMotor;
+import com.arcrobotics.ftclib.controller.PIDController;
 import com.rowanmcalpin.nextftc.core.Subsystem;
 import com.rowanmcalpin.nextftc.core.command.Command;
 import com.rowanmcalpin.nextftc.core.command.groups.SequentialGroup;
@@ -15,20 +13,20 @@ import com.rowanmcalpin.nextftc.ftc.OpModeData;
 import com.rowanmcalpin.nextftc.ftc.hardware.controllables.MotorEx;
 
 @Config
-public class Lift extends Subsystem {
+public class ClipperLib extends Subsystem {
     // BOILERPLATE
-    public static final Lift INSTANCE = new Lift();
-    private final PIDFController controller;
+    public static final ClipperLib INSTANCE = new ClipperLib();
+    private final PIDController controller;
     public static double kP = 0.007, kI = 0.0002, kD = 0.0002, kF = 0.0002;
-    public static double target = 0.0, threshold = 30, minExtension = 0.0, maxExtension = 1700;
+    public static double target = 0.0, threshold = 30, minExtension = 0.0, maxExtension = 200;
 
     // USER CODE
     public MotorEx motor;
 
-    public String name = "OuttakeSlide";
+    public String name = "Belt";
 
-    public Lift() {
-        controller = new PIDFController(kP, kI, kD, kF);
+    public ClipperLib() {
+        controller = new PIDController(kP, kI, kD);
     }
 
     public Command toHigh() {
@@ -63,14 +61,13 @@ public class Lift extends Subsystem {
 
         double currentPosition = motor.getCurrentPosition();
 
-        controller.setPIDF(kP, kI, kD, kF);
-        controller.setF(kF);
+        controller.setPID(kP, kI, kD);
 
         double power = controller.calculate(currentPosition, target);
         motor.setPower(power);
 
-        OpModeData.telemetry.addData("lift pos: ", motor.getCurrentPosition());
-        OpModeData.telemetry.addData("lift target: ", target);
+        OpModeData.telemetry.addData("BeltLib pos: ", motor.getCurrentPosition());
+        OpModeData.telemetry.addData("BeltLib target: ", target);
     }
 
     public void resetEncoderZero() {

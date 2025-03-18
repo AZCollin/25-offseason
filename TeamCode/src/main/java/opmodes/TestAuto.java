@@ -13,7 +13,7 @@ import pedroPathing.constants.LConstants;
 import routines.BucketRoutines;
 import subsystems.IntakeClaw;
 import subsystems.IntakeArm;
-import subsystems.lib.Lift;
+import subsystems.lib.OuttakeSlideLib;
 import utils.TrajectoryBuilder;
 
 @Autonomous(name = "TestAuto")
@@ -22,7 +22,7 @@ public class TestAuto extends PedroOpMode {
     private final LConstants lConstants = new LConstants();
 
     public TestAuto(){
-        super(IntakeClaw.INSTANCE, IntakeArm.INSTANCE, Lift.INSTANCE);
+        super(IntakeClaw.INSTANCE, IntakeArm.INSTANCE, OuttakeSlideLib.INSTANCE);
     }
 
     @Override
@@ -38,7 +38,7 @@ public class TestAuto extends PedroOpMode {
         follower.setStartingPose(TrajectoryBuilder.startPose);
 
         IntakeArm.INSTANCE.resetEncoderZero();//reset encoder
-        Lift.INSTANCE.resetEncoderZero();
+        OuttakeSlideLib.INSTANCE.resetEncoderZero();
         IntakeClaw.INSTANCE.close().invoke(); // Close claw
 
         OpModeData.telemetry = telemetry;

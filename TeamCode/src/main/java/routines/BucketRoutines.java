@@ -3,12 +3,10 @@ package routines;
 import com.rowanmcalpin.nextftc.core.command.Command;
 import com.rowanmcalpin.nextftc.core.command.groups.ParallelGroup;
 import com.rowanmcalpin.nextftc.core.command.groups.SequentialGroup;
-import com.rowanmcalpin.nextftc.core.command.utility.delays.Delay;
-import com.rowanmcalpin.nextftc.core.units.TimeSpan;
 import com.rowanmcalpin.nextftc.pedro.FollowPath;
 
 import subsystems.IntakeClaw;
-import subsystems.lib.Lift;
+import subsystems.lib.OuttakeSlideLib;
 import utils.TrajectoryBuilder;
 
 public class BucketRoutines {
@@ -24,9 +22,9 @@ public class BucketRoutines {
 
     public static Command testLift() {
         return new SequentialGroup(
-                Lift.INSTANCE.toMiddle(),
+                OuttakeSlideLib.INSTANCE.toMiddle(),
                 IntakeClaw.INSTANCE.open(),
-                Lift.INSTANCE.toHigh()
+                OuttakeSlideLib.INSTANCE.toHigh()
         );
     }
 }

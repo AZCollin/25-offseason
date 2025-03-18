@@ -6,22 +6,24 @@ import com.rowanmcalpin.nextftc.pedro.PedroOpMode;
 
 import subsystems.Belt;
 import subsystems.Clipper;
-import subsystems.lib.Lift;
+import subsystems.lib.BeltLib;
+import subsystems.lib.ClipperLib;
+import subsystems.lib.OuttakeSlideLib;
 
 @TeleOp(name = "LiftTesting")
 public class LiftTesting extends PedroOpMode {
     private double lastTime = 0.0;
     public LiftTesting() {
-        super(Lift.INSTANCE, Belt.INSTANCE, Clipper.INSTANCE);
+        super(OuttakeSlideLib.INSTANCE, BeltLib.INSTANCE, ClipperLib.INSTANCE);
     }
     @Override
     public void onInit() {
         OpModeData.telemetry = telemetry;
         telemetry.update();
 
-        Lift.INSTANCE.resetEncoderZero();
-        Belt.INSTANCE.resetEncoderZero();
-        Clipper.INSTANCE.resetEncoderZero();
+        OuttakeSlideLib.INSTANCE.resetEncoderZero();
+        BeltLib.INSTANCE.resetEncoderZero();
+        ClipperLib.INSTANCE.resetEncoderZero();
     }
 
     @Override
@@ -52,9 +54,8 @@ public class LiftTesting extends PedroOpMode {
         //gamepadManager.getGamepad2().getY().setPressedCommand(Lift.INSTANCE::toHigh);
         //gamepadManager.getGamepad2().getB().setPressedCommand(Lift.INSTANCE::toMiddle);
         //gamepadManager.getGamepad2().getA().setPressedCommand(Lift.INSTANCE::toLow);
-
-        gamepadManager.getGamepad2().getY().setPressedCommand(Belt.INSTANCE::pickup);
-        gamepadManager.getGamepad2().getB().setPressedCommand(Clipper.INSTANCE::pickup);
+        //gamepadManager.getGamepad2().getY().setPressedCommand(BeltLib.INSTANCE::pickup);
+        //gamepadManager.getGamepad2().getB().setPressedCommand(ClipperLib.INSTANCE::pickup);
 
     }
 }

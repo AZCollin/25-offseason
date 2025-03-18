@@ -1,32 +1,16 @@
 package opmodes;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.rowanmcalpin.nextftc.core.command.Command;
-import com.rowanmcalpin.nextftc.core.command.groups.SequentialGroup;
-import com.rowanmcalpin.nextftc.core.command.utility.InstantCommand;
-import com.rowanmcalpin.nextftc.core.command.utility.conditionals.PassiveConditionalCommand;
 import com.rowanmcalpin.nextftc.ftc.OpModeData;
-import com.rowanmcalpin.nextftc.ftc.driving.MecanumDriverControlled;
-import com.rowanmcalpin.nextftc.ftc.hardware.controllables.MotorEx;
 import com.rowanmcalpin.nextftc.pedro.PedroOpMode;
 
-import subsystems.Belt;
-import subsystems.Clipper;
-import subsystems.IntakeArm;
-import subsystems.IntakeClaw;
-import subsystems.IntakeSlide;
-import subsystems.OuttakeClaw;
-import subsystems.OuttakeSlide;
-import subsystems.lib.IntakeArmFix;
-import subsystems.lib.IntakeArmNormal;
+import subsystems.lib.IntakeArmLib;
 import subsystems.lib.IntakeArmTest;
 
 @TeleOp(name = "ArmTesting")
 public class ArmTesting extends PedroOpMode {
     public ArmTesting() {
-        super(IntakeArmNormal.INSTANCE);
+        super(IntakeArmLib.INSTANCE);
     }
     @Override
     public void onInit() {
@@ -54,7 +38,7 @@ public class ArmTesting extends PedroOpMode {
     public void onStop() {}
 
     public void mecanumDriveInit() {
-        IntakeArmNormal.INSTANCE.resetEncoderZero();
+        IntakeArmLib.INSTANCE.resetEncoderZero();
     }
 
     private void registerControls() {
