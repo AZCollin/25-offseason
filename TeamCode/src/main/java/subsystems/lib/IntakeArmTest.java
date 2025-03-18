@@ -4,8 +4,7 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.arcrobotics.ftclib.controller.PIDFController;
-
-import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.rowanmcalpin.nextftc.core.Subsystem;
 import com.rowanmcalpin.nextftc.core.command.Command;
 import com.rowanmcalpin.nextftc.core.command.groups.SequentialGroup;
@@ -15,19 +14,19 @@ import com.rowanmcalpin.nextftc.ftc.OpModeData;
 import com.rowanmcalpin.nextftc.ftc.hardware.controllables.MotorEx;
 
 @Config
-public class Lift extends Subsystem {
+public class IntakeArmTest extends Subsystem {
     // BOILERPLATE
-    public static final Lift INSTANCE = new Lift();
+    public static final IntakeArmTest INSTANCE = new IntakeArmTest();
     private final PIDFController controller;
-    public static double kP = 0.007, kI = 0.0002, kD = 0.0002, kF = 0.0002;
-    public static double target = 0.0, threshold = 30, minExtension = 0.0, maxExtension = 1700;
+    public static double kP = 0.004, kI = 0.0, kD = 0.00, kF = 0.00004;
+    public static double target = 0.0, threshold = 30, minExtension = 0.0, maxExtension = 750;
 
     // USER CODE
     public MotorEx motor;
 
-    public String name = "OuttakeSlide";
+    public String name = "IntakeArm";
 
-    public Lift() {
+    public IntakeArmTest() {
         controller = new PIDFController(kP, kI, kD, kF);
     }
 
@@ -55,6 +54,7 @@ public class Lift extends Subsystem {
     @Override
     public void initialize() {
         motor = new MotorEx(name);
+        motor.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
     @Override
@@ -69,8 +69,9 @@ public class Lift extends Subsystem {
         double power = controller.calculate(currentPosition, target);
         motor.setPower(power);
 
-        OpModeData.telemetry.addData("lift pos: ", motor.getCurrentPosition());
-        OpModeData.telemetry.addData("lift target: ", target);
+        OpModeData.telemetry.addData("arm pos: ", motor.getCurrentPosition());
+        OpModeData.telemetry.addData("arm target: ", target);
+        OpModeData.telemetry.update();
     }
 
     public void resetEncoderZero() {

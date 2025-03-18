@@ -28,6 +28,7 @@ public class TestAuto extends PedroOpMode {
     @Override
     public void onInit() {
         Constants.setConstants(fConstants.getClass(), lConstants.getClass());
+
         follower = new Follower(hardwareMap);
         try {
             follower.poseUpdater.resetIMU();
@@ -37,10 +38,16 @@ public class TestAuto extends PedroOpMode {
         follower.setStartingPose(TrajectoryBuilder.startPose);
 
         IntakeArm.INSTANCE.resetEncoderZero();//reset encoder
-        IntakeClaw.INSTANCE.close(); // Close claw
         Lift.INSTANCE.resetEncoderZero();
+        IntakeClaw.INSTANCE.close().invoke(); // Close claw
 
         OpModeData.telemetry = telemetry;
+    }
+
+    @Override
+    public void onWaitForStart() {
+        IntakeClaw.INSTANCE.close(); // Close claw
+        telemetry.update();
     }
 
     @Override

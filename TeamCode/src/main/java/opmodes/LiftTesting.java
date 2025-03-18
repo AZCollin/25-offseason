@@ -10,6 +10,7 @@ import subsystems.lib.Lift;
 
 @TeleOp(name = "LiftTesting")
 public class LiftTesting extends PedroOpMode {
+    private double lastTime = 0.0;
     public LiftTesting() {
         super(Lift.INSTANCE, Belt.INSTANCE, Clipper.INSTANCE);
     }
@@ -35,6 +36,12 @@ public class LiftTesting extends PedroOpMode {
 
     @Override
     public void onUpdate() {
+        if (lastTime == 0.0) {
+            lastTime = System.nanoTime() / 1E9;
+        }
+        double loopTime = System.nanoTime() / 1E9 - lastTime;
+        lastTime = System.nanoTime() / 1E9;
+        telemetry.addData("Loop time", loopTime);
         telemetry.update();
     }
 

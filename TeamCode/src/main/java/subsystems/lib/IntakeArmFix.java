@@ -4,6 +4,7 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.arcrobotics.ftclib.controller.PIDFController;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.rowanmcalpin.nextftc.core.Subsystem;
 import com.rowanmcalpin.nextftc.core.command.Command;
 import com.rowanmcalpin.nextftc.core.command.groups.SequentialGroup;
@@ -54,6 +55,7 @@ public class IntakeArmFix extends Subsystem {
     @Override
     public void initialize() {
         motor = new MotorEx(name);
+        motor.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
     @Override
@@ -61,21 +63,26 @@ public class IntakeArmFix extends Subsystem {
         OpModeData.telemetry = new MultipleTelemetry(OpModeData.telemetry, FtcDashboard.getInstance().getTelemetry());
 
         double pivotAngle = motor.getCurrentPosition() / ticksInDegrees; // Get the current position of the arm in degrees
-
-        controller.setF(kF * (Math.cos(pivotAngle - Math.toRadians(adjustment)))); //Not sure what 90 should be
-
-        double power = controller.calculate(Math.toDegrees(motor.getCurrentPosition()), target + adjustment);
+        controller.setPIDF(kP, kI, kD, kF);
+        controller.setF(kF * Math.cos(Math.toRadians(pivotAngle - adjustment)));
+        double power = controller.calculate(pivotAngle, target + adjustment);
         motor.setPower(power);
 
-        OpModeData.telemetry.addData("pos: ", motor.getCurrentPosition());
+        OpModeData.telemetry.addData("pos (ticks): ", motor.getCurrentPosition());
+        OpModeData.telemetry.addData("pivot angle (deg): ", pivotAngle);
         OpModeData.telemetry.addData("target: ", target);
+        OpModeData.telemetry.addData("adjustment: ", adjustment);
+        OpModeData.telemetry.addData("final target: ", target + adjustment);
+        OpModeData.telemetry.addData("cos(pivot): ", Math.cos(Math.toRadians(pivotAngle - adjustment)));
+        OpModeData.telemetry.addData("kF * cos(pivot): ", kF * Math.cos(Math.toRadians(pivotAngle - adjustment)));
+        OpModeData.telemetry.addData("calculated power: ", power);
         OpModeData.telemetry.update();
 
     }
 
     public void resetEncoderZero() {
         motor.resetEncoder();
-        motor.setCurrentPosition(0);
+        target = 0;
     }
 
     public void setTarget(double target) {

@@ -23,9 +23,10 @@ public class BucketRoutines {
     }
 
     public static Command testLift() {
-        return new ParallelGroup(
-                Lift.INSTANCE.toHigh(),
-                IntakeClaw.INSTANCE.open()
+        return new SequentialGroup(
+                Lift.INSTANCE.toMiddle(),
+                IntakeClaw.INSTANCE.open(),
+                Lift.INSTANCE.toHigh()
         );
     }
 }
