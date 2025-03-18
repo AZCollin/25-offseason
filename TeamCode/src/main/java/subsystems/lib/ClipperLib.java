@@ -1,9 +1,13 @@
 package subsystems.lib;
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
+
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.arcrobotics.ftclib.controller.PIDController;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.rowanmcalpin.nextftc.core.Subsystem;
 import com.rowanmcalpin.nextftc.core.command.Command;
 import com.rowanmcalpin.nextftc.core.command.groups.SequentialGroup;
@@ -17,13 +21,13 @@ public class ClipperLib extends Subsystem {
     // BOILERPLATE
     public static final ClipperLib INSTANCE = new ClipperLib();
     private final PIDController controller;
-    public static double kP = 0.007, kI = 0.0002, kD = 0.0002, kF = 0.0002;
-    public static double target = 0.0, threshold = 30, minExtension = 0.0, maxExtension = 200;
+    public static double kP = 0.0, kI = 0.0, kD = 0.0, kF = 0.0;
+    public static double target = 0.0, threshold = 5, minExtension = 0.0, maxExtension = 200;
 
     // USER CODE
-    public MotorEx motor;
+    private DcMotorEx motor;
 
-    public String name = "Belt";
+    public String name = "Clipper";
 
     public ClipperLib() {
         controller = new PIDController(kP, kI, kD);
@@ -52,7 +56,12 @@ public class ClipperLib extends Subsystem {
 
     @Override
     public void initialize() {
-        motor = new MotorEx(name);
+        //motor = new MotorEx(name);
+
+        motor = OpModeData.hardwareMap.get(DcMotorEx.class, "Clipper");
+//        motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
     @Override
@@ -66,12 +75,14 @@ public class ClipperLib extends Subsystem {
         double power = controller.calculate(currentPosition, target);
         motor.setPower(power);
 
-        OpModeData.telemetry.addData("BeltLib pos: ", motor.getCurrentPosition());
-        OpModeData.telemetry.addData("BeltLib target: ", target);
+        OpModeData.telemetry.addData("ClipperLib pos: ", motor.getCurrentPosition());
+        OpModeData.telemetry.addData("ClipperLib target: ", target);
+        OpModeData.telemetry.update();
     }
 
     public void resetEncoderZero() {
-        motor.resetEncoder();
+        motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         target = 0;
     }
 

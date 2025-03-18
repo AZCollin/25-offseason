@@ -18,7 +18,7 @@ public class IntakeArmLib extends Subsystem {
     // BOILERPLATE
     public static final IntakeArmLib INSTANCE = new IntakeArmLib();
     private final PIDController controller;
-    public static double kP = 0.0, kI = 0.0, kD = 0.00, kF = 0.0;
+    public static double kP = 0.0015, kI = 0.0, kD = 0.0003, kF = 0.02;
     public static double target = 0.0, threshold = 30, minExtension = 0.0, maxExtension = 750;
     private double ticksInDegrees = 537.7 / 180;
 
@@ -70,8 +70,8 @@ public class IntakeArmLib extends Subsystem {
         double ff = Math.cos(Math.toRadians(target / ticksInDegrees)) * kF;
         motor.setPower(pid + ff);
 
-        OpModeData.telemetry.addData("arm pos: ", motor.getCurrentPosition());
-        OpModeData.telemetry.addData("arm target: ", target);
+        OpModeData.telemetry.addData("IntakeArm pos: ", motor.getCurrentPosition());
+        OpModeData.telemetry.addData("IntakeArm target: ", target);
         OpModeData.telemetry.update();
     }
 

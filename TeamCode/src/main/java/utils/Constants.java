@@ -17,6 +17,9 @@ public class Constants {
 
     // - OUTTAKE SLIDE - //
 
+    public static double OuttakeSlideMaxPosition = 1700;
+    public static double OuttakeSlideThreshold = 30;
+
     // - INTAKE SLIDE - //
     public static double IntakeSlideOut = 0.05;
     public static double IntakeSlideIn = 0.6;

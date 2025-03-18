@@ -2,17 +2,16 @@ package FTCLib;
 
 
 import com.arcrobotics.ftclib.command.Robot;
-import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
-import FTCLib.subsystems.IntakeArm;
-import FTCLib.subsystems.IntakeClaw;
-import FTCLib.subsystems.IntakeSlide;
+import FTCLib.subsystems.IntakeArmNew;
+import FTCLib.subsystems.IntakeClawNew;
+import FTCLib.subsystems.IntakeSlideNew;
 import FTCLib.subsystems.MecanumDrivetrain;
-import FTCLib.subsystems.OuttakeSlide;
+import FTCLib.subsystems.OuttakeSlideNew;
 
 public class Bot extends Robot {
     private final IMU imu;
@@ -20,10 +19,10 @@ public class Bot extends Robot {
     public final HardwareMap hardwareMap;
 
     private MecanumDrivetrain drivetrain;
-    private IntakeClaw intakeClaw;
-    private IntakeSlide intakeSlide;
-    private IntakeArm intakeArm;
-    private OuttakeSlide outtakeSlide;
+    private IntakeClawNew intakeClaw;
+    private IntakeSlideNew intakeSlide;
+    private IntakeArmNew intakeArm;
+    private OuttakeSlideNew outtakeSlide;
 
 
     public Bot(Telemetry telem, HardwareMap hardwareMap, boolean enableDrive) {
@@ -40,16 +39,16 @@ public class Bot extends Robot {
             drivetrain = new MecanumDrivetrain(this);
         }
 
-        intakeClaw = new IntakeClaw(this);
-        intakeSlide = new IntakeSlide(this);
-        intakeArm = new IntakeArm(this);
-        outtakeSlide = new OuttakeSlide(this);
+        intakeClaw = new IntakeClawNew(this);
+        intakeSlide = new IntakeSlideNew(this);
+        intakeArm = new IntakeArmNew(this);
+        outtakeSlide = new OuttakeSlideNew(this);
     }
 
     public MecanumDrivetrain getDrivetrain() { return drivetrain; }
 
-    public IntakeClaw getIntakeClaw() { return intakeClaw; }
-    public IntakeSlide getIntakeSlide() { return intakeSlide; }
-    public IntakeArm getIntakeArm() { return intakeArm; }
-    public OuttakeSlide getOuttakeSlide() { return outtakeSlide; }
+    public IntakeClawNew getIntakeClaw() { return intakeClaw; }
+    public IntakeSlideNew getIntakeSlide() { return intakeSlide; }
+    public IntakeArmNew getIntakeArm() { return intakeArm; }
+    public OuttakeSlideNew getOuttakeSlide() { return outtakeSlide; }
 }

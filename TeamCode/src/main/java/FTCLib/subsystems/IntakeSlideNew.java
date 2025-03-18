@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import FTCLib.Bot;
 import utils.Constants;
 
-public class IntakeSlide extends SubsystemBase {
+public class IntakeSlideNew extends SubsystemBase {
 
     private final Bot bot;
     private final Servo intakeSlide;
@@ -14,7 +14,7 @@ public class IntakeSlide extends SubsystemBase {
     public enum IntakeSlideState { OUT, IN }
     private IntakeSlideState state = IntakeSlideState.IN;
 
-    public IntakeSlide(Bot bot) {
+    public IntakeSlideNew(Bot bot) {
         this.bot = bot;
 
         intakeSlide = bot.hardwareMap.get(Servo.class, "IntakeSlide");

@@ -1,12 +1,7 @@
 package FTCLib.opmodes;
 
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.gamepad1;
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
-
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
-import com.arcrobotics.ftclib.command.CommandBase;
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.command.button.Button;
@@ -14,25 +9,25 @@ import com.arcrobotics.ftclib.command.button.GamepadButton;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.Gamepad;
 
 import FTCLib.Bot;
 import FTCLib.command.drive.TeleOpDriveCommand;
-import FTCLib.subsystems.IntakeArm;
-import FTCLib.subsystems.IntakeClaw;
-import FTCLib.subsystems.IntakeSlide;
+import FTCLib.command.outtakeSlide.SetOuttakeSlide;
+import FTCLib.subsystems.IntakeArmNew;
+import FTCLib.subsystems.IntakeClawNew;
+import FTCLib.subsystems.IntakeSlideNew;
 import FTCLib.subsystems.MecanumDrivetrain;
-import FTCLib.subsystems.OuttakeSlide;
+import FTCLib.subsystems.OuttakeSlideNew;
 
 @TeleOp(name = "FTCLIBTeleop")
 public class FTCLIBTeleop extends CommandOpMode {
 
     private Bot bot;
     private MecanumDrivetrain drivetrain;
-    private IntakeClaw intakeClaw;
-    private IntakeSlide intakeSlide;
-    private IntakeArm intakeArm;
-    private OuttakeSlide outtakeSlide;
+    private IntakeClawNew intakeClaw;
+    private IntakeSlideNew intakeSlide;
+    private IntakeArmNew intakeArm;
+    private OuttakeSlideNew outtakeSlide;
 
     private boolean enableDrive = true;
 
@@ -75,6 +70,13 @@ public class FTCLIBTeleop extends CommandOpMode {
         Button intakeArmPickup = (new GamepadButton(driverGamepad, GamepadKeys.Button.DPAD_LEFT)).whenPressed(intakeArm::pickup);
         register(intakeArm);
 
+
+        outtakeSlide = bot.getOuttakeSlide();
+        Button outtakeSlideMax = (new GamepadButton(driverGamepad, GamepadKeys.Button.DPAD_UP)).whenPressed(new SetOuttakeSlide(outtakeSlide, 1500));
+        Button outtakeSlideMid = (new GamepadButton(driverGamepad, GamepadKeys.Button.DPAD_DOWN)).whenPressed(new SetOuttakeSlide(outtakeSlide, 750));
+        register(outtakeSlide);
+
         bot.telem.update();
+
     }
 }

@@ -5,6 +5,7 @@ import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.arcrobotics.ftclib.controller.PIDController;
 import com.arcrobotics.ftclib.controller.PIDFController;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.rowanmcalpin.nextftc.core.Subsystem;
 import com.rowanmcalpin.nextftc.core.command.Command;
 import com.rowanmcalpin.nextftc.core.command.groups.SequentialGroup;
@@ -18,8 +19,8 @@ public class BeltLib extends Subsystem {
     // BOILERPLATE
     public static final BeltLib INSTANCE = new BeltLib();
     private final PIDController controller;
-    public static double kP = 0.007, kI = 0.0002, kD = 0.0002, kF = 0.0002;
-    public static double target = 0.0, threshold = 30, minExtension = 0.0, maxExtension = 200;
+    public static double kP = 0.0, kI = 0.0, kD = 0.0, kF = 0.0;
+    public static double target = 0.0, threshold = 5, minExtension = 0.0, maxExtension = 200;
 
     // USER CODE
     public MotorEx motor;
@@ -69,11 +70,14 @@ public class BeltLib extends Subsystem {
 
         OpModeData.telemetry.addData("BeltLib pos: ", motor.getCurrentPosition());
         OpModeData.telemetry.addData("BeltLib target: ", target);
+        OpModeData.telemetry.update();
     }
 
     public void resetEncoderZero() {
         motor.resetEncoder();
         target = 0;
+
+
     }
 
     public void setTarget(double target) {
