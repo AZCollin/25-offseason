@@ -20,12 +20,13 @@ import subsystems.IntakeSlide;
 import subsystems.OuttakeClaw;
 import subsystems.OuttakeSlide;
 import subsystems.lib.IntakeArmFix;
+import subsystems.lib.IntakeArmNormal;
 import subsystems.lib.IntakeArmTest;
 
 @TeleOp(name = "ArmTesting")
 public class ArmTesting extends PedroOpMode {
     public ArmTesting() {
-        super(IntakeArmTest.INSTANCE);
+        super(IntakeArmNormal.INSTANCE);
     }
     @Override
     public void onInit() {
@@ -53,7 +54,7 @@ public class ArmTesting extends PedroOpMode {
     public void onStop() {}
 
     public void mecanumDriveInit() {
-        IntakeArmTest.INSTANCE.resetEncoderZero();
+        IntakeArmNormal.INSTANCE.resetEncoderZero();
     }
 
     private void registerControls() {
