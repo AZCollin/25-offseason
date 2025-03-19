@@ -12,7 +12,7 @@ import utils.Constants;
 
 public class IntakeClaw extends Subsystem {
     public static final IntakeClaw INSTANCE = new IntakeClaw();
-    private IntakeClaw() {}
+    //private IntakeClaw() {}
     public Servo servo;
     public String name = "IntakeClaw";
     public String state;
@@ -48,7 +48,4 @@ public class IntakeClaw extends Subsystem {
             return open();
         }
     }
-
-
-
 }

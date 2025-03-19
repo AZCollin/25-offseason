@@ -14,7 +14,6 @@ import com.rowanmcalpin.nextftc.ftc.hardware.controllables.RunToPosition;
 public class IntakeArm extends Subsystem {
 
     public static final IntakeArm INSTANCE = new IntakeArm();
-
     public static double kP = 0.002; //0.01
     public static double kI = 0.0;
     public static double kD = 0.0005; //0.00015
@@ -27,7 +26,7 @@ public class IntakeArm extends Subsystem {
     private final PIDFController controller = new PIDFController(kP, kI, kD, (pos) -> kF, threshold);
 
     public double pickupPosition = 400;
-    public double transferPosition = 0;
+    public double transferPosition = -20;
     public double clip = -300;
 
     public Command pickup() { return new RunToPosition(motor, pickupPosition, controller, this); }

@@ -27,23 +27,23 @@ public class OuttakeSlide extends Subsystem {
 
     private final PIDFController controller = new PIDFController(kP, kI, kD, (pos) -> kF, threshold);
 
-    public double transfer = 0.0;
-    public double bypass = 500;
-    public double highChamber = 1300;
-    public double highBasket = 1700;
+    public double transferPosition = 0.0;
+    public double bypassPosition = 500;
+    public double highChamberPosition = 1300;
+    public double highBasketPosition = 1700;
 
 
     public Command transfer() {
-        return new RunToPosition(motor, transfer, controller, this);
+        return new RunToPosition(motor, transferPosition, controller, this);
     }
     public Command bypass() {
-        return new RunToPosition(motor, bypass, controller, this);
+        return new RunToPosition(motor, bypassPosition, controller, this);
     }
     public Command highChamber() {
-        return new RunToPosition(motor, highChamber, controller, this);
+        return new RunToPosition(motor, highChamberPosition, controller, this);
     }
     public Command highBasket() {
-        return new RunToPosition(motor, highBasket, controller, this);
+        return new RunToPosition(motor, highBasketPosition, controller, this);
     }
 
     @Override

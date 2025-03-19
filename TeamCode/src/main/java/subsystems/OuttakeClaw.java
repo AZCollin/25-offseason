@@ -12,7 +12,7 @@ import utils.Constants;
 
 public class OuttakeClaw extends Subsystem {
     public static final OuttakeClaw INSTANCE = new OuttakeClaw();
-    private OuttakeClaw() {}
+    //private OuttakeClaw() {}
     public Servo servo;
     public String name = "OuttakeClaw";
     public String state;

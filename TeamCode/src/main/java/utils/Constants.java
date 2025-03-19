@@ -21,8 +21,8 @@ public class Constants {
     public static double OuttakeSlideThreshold = 30;
 
     // - INTAKE SLIDE - //
-    public static double IntakeSlideOut = 0.05;
-    public static double IntakeSlideIn = 0.6;
+    public static double IntakeSlideOut = 0.03;
+    public static double IntakeSlideIn = 0.7;
 
     // - INTAKE ARM - //
 

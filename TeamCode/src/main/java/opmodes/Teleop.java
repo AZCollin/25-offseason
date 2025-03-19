@@ -10,6 +10,7 @@ import com.rowanmcalpin.nextftc.core.command.Command;
 import com.rowanmcalpin.nextftc.core.command.groups.SequentialGroup;
 import com.rowanmcalpin.nextftc.core.command.utility.InstantCommand;
 import com.rowanmcalpin.nextftc.core.command.utility.conditionals.PassiveConditionalCommand;
+import com.rowanmcalpin.nextftc.core.command.utility.statemachine.AdvancingCommand;
 import com.rowanmcalpin.nextftc.ftc.OpModeData;
 import com.rowanmcalpin.nextftc.ftc.driving.MecanumDriverControlled;
 import com.rowanmcalpin.nextftc.ftc.hardware.controllables.MotorEx;
@@ -64,7 +65,8 @@ public class Teleop extends PedroOpMode {
         registerControls();
 
 
-        IntakeClaw.INSTANCE.close(); //Initially close it
+        IntakeClaw.INSTANCE.close();
+        OuttakeClaw.INSTANCE.close();
     }
 
     @Override
@@ -112,6 +114,11 @@ public class Teleop extends PedroOpMode {
         gamepadManager.getGamepad2().getX().setReleasedCommand(IntakeClaw.INSTANCE::toggle); // When pressed it triggers it so say open
         gamepadManager.getGamepad2().getX().setPressedCommand(IntakeClaw.INSTANCE::toggle);  // Then when released it should close it
 
+        gamepadManager.getGamepad2().getRightBumper().setPressedCommand(IntakeSlide.INSTANCE::toggle);
+
+        gamepadManager.getGamepad2().getLeftBumper().setReleasedCommand(OuttakeClaw.INSTANCE::toggle); // When pressed it triggers it so say open
+        gamepadManager.getGamepad2().getLeftBumper().setPressedCommand(OuttakeClaw.INSTANCE::toggle);  // Then when released it should close it
+
         gamepadManager.getGamepad2().getA().setPressedCommand(IntakeArm.INSTANCE::clip);
         gamepadManager.getGamepad2().getB().setPressedCommand(IntakeArm.INSTANCE::transfer);
         gamepadManager.getGamepad2().getY().setPressedCommand(IntakeArm.INSTANCE::pickup);
@@ -120,6 +127,11 @@ public class Teleop extends PedroOpMode {
         gamepadManager.getGamepad2().getDpadDown().setPressedCommand(OuttakeSlide.INSTANCE::transfer);
         gamepadManager.getGamepad2().getDpadLeft().setPressedCommand(OuttakeSlide.INSTANCE::highBasket);
         gamepadManager.getGamepad2().getDpadRight().setPressedCommand(OuttakeSlide.INSTANCE::bypass);
+
+
+
+        //gamepadManager.getGamepad2().getRightBumper().setPressedCommand(this::forwardCommand);
+        //gamepadManager.getGamepad2().getLeftBumper().setPressedCommand(this::backCommand);
     }
 
     public boolean slowMode = true;
@@ -141,69 +153,12 @@ public class Teleop extends PedroOpMode {
         );
     }
 
-//    public Command specimenNextStep() {
-//        return new InstantCommand(
-//                () -> {
-//                    specimenSequenceCount++;
-//                    nextSpecimenSequence();
-//                }
-//        );
-//    }
+//    private int step = 0; // Tracks current step
 //
-//    public Command specimenPreviousStep() {
-//        return new InstantCommand(
-//                this::previousSpecimenSequence
-//        );
+//    public Command forwardCommand() {
+//        return new AdvancingCommand()
+//                .add(OuttakeSlide.INSTANCE.highBasket())
+//                .add(OuttakeSlide.INSTANCE.transfer());
 //    }
-//
-//    public void nextSpecimenSequence() {
-//        switch (specimenSequenceCount) {
-//            case 1:
-//                IntakeArm.INSTANCE.PrePickup();
-//                break;
-//            case 2:
-//                IntakeClaw.INSTANCE.open();
-//                break;
-//            case 3:
-//                IntakeArm.INSTANCE.pickup();
-//                break;
-//            case 4:
-//                IntakeClaw.INSTANCE.close();
-//                break;
-//            case 5:
-//                //IntakeArm.INSTANCE.retract();
-//                break;
-//            case 6:
-//                IntakeSlide.INSTANCE.in();
-//                specimenSequenceCount = 1;
-//                break;
-//        }
-//    }
-//
-//    public void previousSpecimenSequence() {
-//        if (specimenSequenceCount > 1) {
-//            specimenSequenceCount--; // Move back one step
-//        }
-//
-//        switch (specimenSequenceCount) {
-//            case 1:
-//                IntakeArm.INSTANCE.transfer();
-//                break;
-//            case 2:
-//                IntakeClaw.INSTANCE.close();
-//                break;
-//            case 3:
-//                IntakeArm.INSTANCE.PrePickup();
-//                break;
-//            case 4:
-//                IntakeClaw.INSTANCE.open();
-//                break;
-//            case 5:
-//                //IntakeArm.INSTANCE.retract();
-//                break;
-//            case 6:
-//        }
-//    }
-
 }
 
