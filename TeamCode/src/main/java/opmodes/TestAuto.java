@@ -11,8 +11,8 @@ import com.rowanmcalpin.nextftc.pedro.PedroOpMode;
 import pedroPathing.constants.FConstants;
 import pedroPathing.constants.LConstants;
 import routines.BucketRoutines;
-import subsystems.IntakeClaw;
 import subsystems.IntakeArm;
+import subsystems.IntakeClaw;
 import subsystems.lib.OuttakeSlideLib;
 import utils.TrajectoryBuilder;
 
@@ -37,7 +37,7 @@ public class TestAuto extends PedroOpMode {
         }
         follower.setStartingPose(TrajectoryBuilder.startPose);
 
-        IntakeArm.INSTANCE.resetEncoderZero();//reset encoder
+        IntakeArm.INSTANCE.resetEncoder();//reset encoder
         OuttakeSlideLib.INSTANCE.resetEncoderZero();
         IntakeClaw.INSTANCE.close().invoke(); // Close claw
 

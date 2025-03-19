@@ -1,70 +1,58 @@
 package subsystems;
 
-import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
-import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.rowanmcalpin.nextftc.core.Subsystem;
 import com.rowanmcalpin.nextftc.core.command.Command;
-import com.rowanmcalpin.nextftc.core.command.utility.NullCommand;
 import com.rowanmcalpin.nextftc.core.control.controllers.PIDFController;
-import com.rowanmcalpin.nextftc.core.control.controllers.feedforward.StaticFeedforward;
 import com.rowanmcalpin.nextftc.ftc.OpModeData;
-import com.rowanmcalpin.nextftc.ftc.hardware.controllables.HoldPosition;
 import com.rowanmcalpin.nextftc.ftc.hardware.controllables.MotorEx;
 import com.rowanmcalpin.nextftc.ftc.hardware.controllables.RunToPosition;
 
-import org.jetbrains.annotations.NotNull;
-
 @Config
 public class Belt extends Subsystem {
+
     public static final Belt INSTANCE = new Belt();
-    private Belt() {}
-    public MotorEx motor;
-    public static double kP = 0.005, kI = 0, kD = 0.0, kF = 0.0, threshold = 10.0;
-    public static double target = 0;
-    public PIDFController controller = new PIDFController(kP,kI,kD,new StaticFeedforward(kF), threshold);
+
+    public static double kP = 0.0; //0.01
+    public static double kI = 0.0;
+    public static double kD = 0.0; //0.00015
+    public static double kF = 0.0;
+    public static double target = 0.0;
+    public static double threshold = 10;
+
     public String name = "Belt";
 
+    private MotorEx motor;
+
+    private final PIDFController controller = new PIDFController(kP, kI, kD, (pos) -> kF, threshold);
+
+    public Command getToZero() {
+        return new RunToPosition(motor, 0.0, controller, this);
+    }
+
+    public Command getTo1000() {
+        return new RunToPosition(motor, 500.0, controller, this);
+    }
+
+    public static boolean zero = false;
+
     @Override
-    public void initialize(){
+    public void initialize() {
         motor = new MotorEx(name);
-        motor.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
     @Override
-    public void periodic(){
-        OpModeData.telemetry = new MultipleTelemetry(OpModeData.telemetry, FtcDashboard.getInstance().getTelemetry());
-
-        controller.setKD(kD);
+    public void periodic() {
         controller.setKP(kP);
         controller.setKI(kI);
-        controller.setTarget(target);
-        controller.setSetPointTolerance(threshold);
+        controller.setKD(kD);
 
-        OpModeData.telemetry.addData("belt pos: ", motor.getCurrentPosition());
-        OpModeData.telemetry.addData("belt target: ", target);
+
+        OpModeData.telemetry.addData("Belt Position", motor.getCurrentPosition());
+        OpModeData.telemetry.addData("Belt Target", controller.getTarget());
     }
 
-    @Override
-    @NotNull
-    public Command getDefaultCommand(){
-        return new HoldPosition(motor, controller,this);
-    }
-
-    public Command pickup(){
-        return new RunToPosition(motor,target,controller,this);
-    }
-
-    public Command toPosition(double targetPosition){
-        return new RunToPosition(motor,targetPosition,controller,this);
-    }
-    public void resetEncoderZero() {
+    public void resetEncoder() {
         motor.resetEncoder();
-    }
-
-    public double getPosition(){
-        return motor.getCurrentPosition();
     }
 }

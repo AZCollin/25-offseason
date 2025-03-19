@@ -6,8 +6,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.rowanmcalpin.nextftc.ftc.OpModeData;
 import com.rowanmcalpin.nextftc.pedro.PedroOpMode;
 
-import subsystems.Belt;
-import subsystems.Clipper;
 import subsystems.lib.BeltLib;
 import subsystems.lib.ClipperLib;
 import subsystems.lib.OuttakeSlideLib;

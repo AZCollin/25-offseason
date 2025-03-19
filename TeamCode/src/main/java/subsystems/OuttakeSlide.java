@@ -4,65 +4,62 @@ import com.acmerobotics.dashboard.config.Config;
 import com.rowanmcalpin.nextftc.core.Subsystem;
 import com.rowanmcalpin.nextftc.core.command.Command;
 import com.rowanmcalpin.nextftc.core.control.controllers.PIDFController;
-import com.rowanmcalpin.nextftc.core.control.controllers.feedforward.StaticFeedforward;
 import com.rowanmcalpin.nextftc.ftc.OpModeData;
 import com.rowanmcalpin.nextftc.ftc.hardware.controllables.HoldPosition;
 import com.rowanmcalpin.nextftc.ftc.hardware.controllables.MotorEx;
 import com.rowanmcalpin.nextftc.ftc.hardware.controllables.RunToPosition;
 
-import org.jetbrains.annotations.NotNull;
 @Config
 public class OuttakeSlide extends Subsystem {
+
     public static final OuttakeSlide INSTANCE = new OuttakeSlide();
 
-    private OuttakeSlide() {}
-    public MotorEx motor;
+    public static double kP = 0.01;
+    public static double kI = 0.0;
+    public static double kD = 0.00015;
+    public static double kF = 0.1;
+    public static double target = 0.0;
+    public static double threshold = 10;
 
-    public double Kf;
-    public static double kP = 0.008, kI = 0, kD = 0.0003, kF = 0.1;
-    public static double targetTolerance = 10;
-    public static double target = 0;
-    public PIDFController controller = new PIDFController(kP,kI,kD, new StaticFeedforward(kF), targetTolerance);
     public String name = "OuttakeSlide";
+
+    private MotorEx motor;
+
+    private final PIDFController controller = new PIDFController(kP, kI, kD, (pos) -> kF, threshold);
+
+    public Command getToZero() {
+        return new RunToPosition(motor, 0.0, controller, this);
+    }
+
+    public Command getTo1000() {
+        return new RunToPosition(motor, 500.0, controller, this);
+    }
+
+    public static boolean zero = false;
+
+
+
     @Override
-    public void initialize(){
+    public void initialize() {
         motor = new MotorEx(name);
     }
 
     @Override
-    public void periodic(){
-        OpModeData.telemetry.addData("OuttakeSlide Position",motor.getCurrentPosition());
+    public Command getDefaultCommand() {
+        return new HoldPosition(motor, controller, this);
     }
 
     @Override
-    @NotNull
-    public Command getDefaultCommand(){
-        return new HoldPosition(motor, controller,this);
+    public void periodic() {
+        controller.setKP(kP);
+        controller.setKI(kI);
+        controller.setKD(kD);
+
+        OpModeData.telemetry.addData("OuttakeSlide Position", motor.getCurrentPosition());
+        OpModeData.telemetry.addData("OuttakeSlide Target", controller.getTarget());
     }
 
-    public Command pickup(){
-        return new RunToPosition(motor,1000,controller,this);
+    public void resetEncoder() {
+        motor.resetEncoder();
     }
-
-    public Command toPosition(double targetPosition){
-        return new RunToPosition(motor,targetPosition,controller,this);
-    }
-    public void resetEncoderZero() {
-        motor.setCurrentPosition(0);
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

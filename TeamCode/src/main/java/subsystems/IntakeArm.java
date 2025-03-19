@@ -1,101 +1,63 @@
 package subsystems;
 
-import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.rowanmcalpin.nextftc.core.Subsystem;
 import com.rowanmcalpin.nextftc.core.command.Command;
-import com.rowanmcalpin.nextftc.core.command.utility.NullCommand;
 import com.rowanmcalpin.nextftc.core.control.controllers.PIDFController;
-import com.rowanmcalpin.nextftc.core.control.controllers.feedforward.ArmFeedforward;
-import com.rowanmcalpin.nextftc.core.control.controllers.feedforward.StaticFeedforward;
 import com.rowanmcalpin.nextftc.ftc.OpModeData;
 import com.rowanmcalpin.nextftc.ftc.hardware.controllables.HoldPosition;
 import com.rowanmcalpin.nextftc.ftc.hardware.controllables.MotorEx;
 import com.rowanmcalpin.nextftc.ftc.hardware.controllables.RunToPosition;
 
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Objects;
-
-import utils.Constants;
 @Config
 public class IntakeArm extends Subsystem {
+
     public static final IntakeArm INSTANCE = new IntakeArm();
-    private IntakeArm() {}
-    public MotorEx motor;
 
-    public static double kP = 0.005, kI = 0, kD = 0.0008, kCos = 0.1;
-    public static double targetTolerance = 10;
-    public static double target = 0;
+    public static double kP = 0.0; //0.01
+    public static double kI = 0.0;
+    public static double kD = 0.0; //0.00015
+    public static double kF = 0.0;
+    public static double target = 0.0;
+    public static double threshold = 10;
 
-    public PIDFController controller = new PIDFController(kP,kI,kD, new ArmFeedforward(kCos, ticks -> ticks / 537.7), targetTolerance);
     public String name = "IntakeArm";
 
-    public String state;
+    private MotorEx motor;
 
-    @Override
-    public void initialize(){
-        motor = new MotorEx(name);
+    private final PIDFController controller = new PIDFController(kP, kI, kD, (pos) -> kF, threshold);
 
+    public Command getToZero() {
+        return new RunToPosition(motor, 0.0, controller, this);
+    }
+
+    public Command getTo1000() {
+        return new RunToPosition(motor, 500.0, controller, this);
     }
 
     @Override
-    public void periodic(){
-        OpModeData.telemetry.addData("IntakeArm Position", motor.getCurrentPosition());
-        OpModeData.telemetry.addData("IntakeArm Position1", motor.getMotor().getCurrentPosition());
-        OpModeData.telemetry.addData("IntakeArm Target", motor.getMotor().getTargetPosition());
+    public void initialize() {
+        motor = new MotorEx(name);
+        motor.setDirection(DcMotorSimple.Direction.REVERSE);
+    }
 
+    @Override
+    public Command getDefaultCommand() {
+        return new HoldPosition(motor, controller, this);
+    }
+
+    @Override
+    public void periodic() {
         controller.setKP(kP);
         controller.setKI(kI);
         controller.setKD(kD);
-        controller.setSetPointTolerance(targetTolerance);
-        //controller.setTarget(target);
+
+        OpModeData.telemetry.addData("IntakeArm Position", motor.getCurrentPosition());
+        OpModeData.telemetry.addData("IntakeArm Target", controller.getTarget());
     }
 
-    @Override
-    @NotNull
-    public Command getDefaultCommand(){
-        return new HoldPosition(motor, controller,this);
-    }
-    public Command pickup(){
-        state = "PICKUP";
-        return new RunToPosition(motor, Constants.IntakeArmPickup,controller,this);
-    }
-    public Command PrePickup(){
-        state = "PrePickup";
-        return new RunToPosition(motor, Constants.IntakeArmPrePickup,controller,this);
-    }
-    public Command transfer(){
-        state = "TRANSFER";
-        return new RunToPosition(motor, Constants.IntakeArmTransfer,controller,this);
-    }
-    public Command clip(){
-        state = "CLIP";
-        return new RunToPosition(motor, Constants.IntakeArmClip,controller,this);
-    }
-    public Command toPosition(double targetPosition){
-        return new RunToPosition(motor,targetPosition,controller,this);
-    }
-    public void resetEncoderZero() {
+    public void resetEncoder() {
         motor.resetEncoder();
-        motor.setCurrentPosition(0);
-    }
-
-    public Command toggleSpecimen(){
-        if (Objects.equals(state, "PICKUP")){ // If the state is "PICKUP" then set it to "CLIP"
-            return clip();
-        } else if (Objects.equals(state, "CLIP")) { // If the state is "CLIP" then set it to "TRANSFER"
-            return transfer();
-        } else {
-            return pickup(); // Default state is "PICKUP", so starting the program will be "PICKUP"
-        }
-    }
-
-    public Command toggleSample(){
-        if (Objects.equals(state, "PICKUP")){ // If the state is "PICKUP" then set it to "TRANSFER"
-            return transfer();
-        } else {
-            return pickup();
-        }
     }
 }

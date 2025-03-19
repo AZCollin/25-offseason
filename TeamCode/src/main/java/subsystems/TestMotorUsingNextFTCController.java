@@ -17,12 +17,14 @@ public class TestMotorUsingNextFTCController extends Subsystem {
     public static double kI = 0.0;
     public static double kD = 0.0; //0.00015
     public static double kF = 0.0;
+    public static double target = 0.0;
+    public static double threshold = 10;
 
     public String name = "Clipper";
 
-    private MotorEx motor = new MotorEx(name);
+    private MotorEx motor;
 
-    private final PIDFController controller = new PIDFController(kP, kI, kD, (pos) -> kF);
+    private final PIDFController controller = new PIDFController(kP, kI, kD, (pos) -> kF, threshold);
 
     public Command getToZero() {
         return new RunToPosition(motor, 0.0, controller, this);
@@ -45,11 +47,11 @@ public class TestMotorUsingNextFTCController extends Subsystem {
         controller.setKI(kI);
         controller.setKD(kD);
 
-        if (zero) {
-            getTo1000().invoke();
-        } else {
-            getToZero().invoke();
-        }
+//        if (zero) {
+//            getTo1000().invoke();
+//        } else {
+//            getToZero().invoke();
+//        }
 
         OpModeData.telemetry.addData("Position", motor.getCurrentPosition());
         OpModeData.telemetry.addData("Target", controller.getTarget());
