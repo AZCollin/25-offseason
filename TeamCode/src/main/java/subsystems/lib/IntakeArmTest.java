@@ -71,7 +71,6 @@ public class IntakeArmTest extends Subsystem {
 
         OpModeData.telemetry.addData("arm pos: ", motor.getCurrentPosition());
         OpModeData.telemetry.addData("arm target: ", target);
-        OpModeData.telemetry.update();
     }
 
     public void resetEncoderZero() {

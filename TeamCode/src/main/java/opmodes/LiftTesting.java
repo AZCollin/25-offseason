@@ -1,5 +1,7 @@
 package opmodes;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.rowanmcalpin.nextftc.ftc.OpModeData;
 import com.rowanmcalpin.nextftc.pedro.PedroOpMode;
@@ -18,12 +20,14 @@ public class LiftTesting extends PedroOpMode {
     }
     @Override
     public void onInit() {
+        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         OpModeData.telemetry = telemetry;
-        telemetry.update();
 
         OuttakeSlideLib.INSTANCE.resetEncoderZero();
         BeltLib.INSTANCE.resetEncoderZero();
         ClipperLib.INSTANCE.resetEncoderZero();
+
+        telemetry.update();
     }
 
     @Override

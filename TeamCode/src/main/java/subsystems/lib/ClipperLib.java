@@ -77,7 +77,6 @@ public class ClipperLib extends Subsystem {
 
         OpModeData.telemetry.addData("ClipperLib pos: ", motor.getCurrentPosition());
         OpModeData.telemetry.addData("ClipperLib target: ", target);
-        OpModeData.telemetry.update();
     }
 
     public void resetEncoderZero() {

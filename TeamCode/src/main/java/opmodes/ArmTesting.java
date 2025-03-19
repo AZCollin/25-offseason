@@ -1,5 +1,7 @@
 package opmodes;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.rowanmcalpin.nextftc.ftc.OpModeData;
 import com.rowanmcalpin.nextftc.pedro.PedroOpMode;
@@ -14,11 +16,13 @@ public class ArmTesting extends PedroOpMode {
     }
     @Override
     public void onInit() {
+        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         OpModeData.telemetry = telemetry;
-        mecanumDriveInit();
-        telemetry.update();
 
+        mecanumDriveInit();
         IntakeArmLib.INSTANCE.resetEncoderZero();
+
+        telemetry.update();
     }
 
     @Override

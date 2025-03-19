@@ -45,7 +45,6 @@ public class Belt extends Subsystem {
 
         OpModeData.telemetry.addData("belt pos: ", motor.getCurrentPosition());
         OpModeData.telemetry.addData("belt target: ", target);
-        FtcDashboard.getInstance().getTelemetry().update();
     }
 
     @Override

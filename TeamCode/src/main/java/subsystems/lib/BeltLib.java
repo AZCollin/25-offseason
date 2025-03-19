@@ -70,7 +70,6 @@ public class BeltLib extends Subsystem {
 
         OpModeData.telemetry.addData("BeltLib pos: ", motor.getCurrentPosition());
         OpModeData.telemetry.addData("BeltLib target: ", target);
-        OpModeData.telemetry.update();
     }
 
     public void resetEncoderZero() {

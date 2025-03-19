@@ -72,7 +72,6 @@ public class IntakeArmLib extends Subsystem {
 
         OpModeData.telemetry.addData("IntakeArm pos: ", motor.getCurrentPosition());
         OpModeData.telemetry.addData("IntakeArm target: ", target);
-        OpModeData.telemetry.update();
     }
 
     public void resetEncoderZero() {
