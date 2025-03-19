@@ -1,5 +1,7 @@
 package subsystems;
 
+import androidx.annotation.NonNull;
+
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.rowanmcalpin.nextftc.core.Subsystem;
@@ -42,6 +44,7 @@ public class IntakeArm extends Subsystem {
         motor.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
+    @NonNull
     @Override
     public Command getDefaultCommand() { return new HoldPosition(motor, controller, this); }
 

@@ -1,5 +1,7 @@
 package subsystems;
 
+import androidx.annotation.NonNull;
+
 import com.acmerobotics.dashboard.config.Config;
 import com.rowanmcalpin.nextftc.core.Subsystem;
 import com.rowanmcalpin.nextftc.core.command.Command;
@@ -51,6 +53,7 @@ public class OuttakeSlide extends Subsystem {
         motor = new MotorEx(name);
     }
 
+    @NonNull
     @Override
     public Command getDefaultCommand() { return new HoldPosition(motor, controller, this);}
 
