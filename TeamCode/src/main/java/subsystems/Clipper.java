@@ -13,9 +13,9 @@ public class Clipper extends Subsystem {
 
     public static final Clipper INSTANCE = new Clipper();
 
-    public static double kP = 0.005; //0.01
+    public static double kP = 0.01;
     public static double kI = 0.0;
-    public static double kD = 0.0002; //0.00015
+    public static double kD = 0.00015;
     public static double kF = 0.0;
     public static double threshold = 10;
 
@@ -33,7 +33,6 @@ public class Clipper extends Subsystem {
         return new RunToPosition(motor, 1000.0, controller, this);
     }
 
-    public static boolean zero = false;
 
     @Override
     public void initialize() {
@@ -50,7 +49,5 @@ public class Clipper extends Subsystem {
         OpModeData.telemetry.addData("Clipper Target", controller.getTarget());
     }
 
-    public void resetEncoder() {
-        motor.resetEncoder();
-    }
+    public void resetEncoder() { motor.resetEncoder(); }
 }

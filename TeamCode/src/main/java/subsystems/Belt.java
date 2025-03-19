@@ -13,9 +13,9 @@ public class Belt extends Subsystem {
 
     public static final Belt INSTANCE = new Belt();
 
-    public static double kP = 0.0; //0.01
+    public static double kP = 0.01;
     public static double kI = 0.0;
-    public static double kD = 0.0; //0.00015
+    public static double kD = 0.0015;
     public static double kF = 0.0;
     public static double target = 0.0;
     public static double threshold = 10;
@@ -33,8 +33,6 @@ public class Belt extends Subsystem {
     public Command getTo1000() {
         return new RunToPosition(motor, 500.0, controller, this);
     }
-
-    public static boolean zero = false;
 
     @Override
     public void initialize() {

@@ -15,25 +15,26 @@ public class IntakeArm extends Subsystem {
 
     public static final IntakeArm INSTANCE = new IntakeArm();
 
-    public static double kP = 0.0; //0.01
+    public static double kP = 0.002; //0.01
     public static double kI = 0.0;
-    public static double kD = 0.0; //0.00015
-    public static double kF = 0.0;
+    public static double kD = 0.0005; //0.00015
+    public static double kF = 0.004;
     public static double target = 0.0;
-    public static double threshold = 10;
+    public static double threshold = 15;
 
     public String name = "IntakeArm";
-
     private MotorEx motor;
-
     private final PIDFController controller = new PIDFController(kP, kI, kD, (pos) -> kF, threshold);
 
-    public Command getToZero() {
-        return new RunToPosition(motor, 0.0, controller, this);
-    }
+    public double pickupPosition = 400;
+    public double transferPosition = 0;
+    public double clip = -300;
 
-    public Command getTo1000() {
-        return new RunToPosition(motor, 500.0, controller, this);
+    public Command pickup() { return new RunToPosition(motor, pickupPosition, controller, this); }
+
+    public Command transfer() { return new RunToPosition(motor, transferPosition, controller, this); }
+    public Command clip() {
+        return new RunToPosition(motor, clip, controller, this);
     }
 
     @Override
@@ -43,15 +44,14 @@ public class IntakeArm extends Subsystem {
     }
 
     @Override
-    public Command getDefaultCommand() {
-        return new HoldPosition(motor, controller, this);
-    }
+    public Command getDefaultCommand() { return new HoldPosition(motor, controller, this); }
 
     @Override
     public void periodic() {
         controller.setKP(kP);
         controller.setKI(kI);
         controller.setKD(kD);
+        controller.setSetPointTolerance(threshold);
 
         OpModeData.telemetry.addData("IntakeArm Position", motor.getCurrentPosition());
         OpModeData.telemetry.addData("IntakeArm Target", controller.getTarget());

@@ -7,10 +7,7 @@ import com.rowanmcalpin.nextftc.ftc.NextFTCOpMode;
 import com.rowanmcalpin.nextftc.ftc.OpModeData;
 
 import subsystems.IntakeArm;
-import subsystems.IntakeSlide;
 import subsystems.OuttakeSlide;
-import subsystems.TestMotorUsingNextFTCController;
-import subsystems.lib.IntakeArmTest;
 
 @TeleOp(name = "Test NextFTC Controller")
 public class TestOpModeNextFTC extends NextFTCOpMode {
@@ -29,11 +26,14 @@ public class TestOpModeNextFTC extends NextFTCOpMode {
         IntakeArm.INSTANCE.resetEncoder();
         OuttakeSlide.INSTANCE.resetEncoder();
 
-        gamepadManager.getGamepad2().getB().setPressedCommand(IntakeArm.INSTANCE::getTo1000);
-        gamepadManager.getGamepad2().getA().setPressedCommand(IntakeArm.INSTANCE::getToZero);
+        gamepadManager.getGamepad2().getA().setPressedCommand(IntakeArm.INSTANCE::clip);
+        gamepadManager.getGamepad2().getB().setPressedCommand(IntakeArm.INSTANCE::transfer);
+        gamepadManager.getGamepad2().getY().setPressedCommand(IntakeArm.INSTANCE::pickup);
 
-        gamepadManager.getGamepad2().getDpadDown().setPressedCommand(OuttakeSlide.INSTANCE::getTo1000);
-        gamepadManager.getGamepad2().getDpadUp().setPressedCommand(OuttakeSlide.INSTANCE::getToZero);
+        gamepadManager.getGamepad2().getDpadUp().setPressedCommand(OuttakeSlide.INSTANCE::highChamber);
+        gamepadManager.getGamepad2().getDpadDown().setPressedCommand(OuttakeSlide.INSTANCE::transfer);
+        gamepadManager.getGamepad2().getDpadLeft().setPressedCommand(OuttakeSlide.INSTANCE::highBasket);
+        gamepadManager.getGamepad2().getDpadRight().setPressedCommand(OuttakeSlide.INSTANCE::bypass);
     }
 
     @Override

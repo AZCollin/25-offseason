@@ -27,17 +27,24 @@ public class OuttakeSlide extends Subsystem {
 
     private final PIDFController controller = new PIDFController(kP, kI, kD, (pos) -> kF, threshold);
 
-    public Command getToZero() {
-        return new RunToPosition(motor, 0.0, controller, this);
+    public double transfer = 0.0;
+    public double bypass = 500;
+    public double highChamber = 1300;
+    public double highBasket = 1700;
+
+
+    public Command transfer() {
+        return new RunToPosition(motor, transfer, controller, this);
     }
-
-    public Command getTo1000() {
-        return new RunToPosition(motor, 500.0, controller, this);
+    public Command bypass() {
+        return new RunToPosition(motor, bypass, controller, this);
     }
-
-    public static boolean zero = false;
-
-
+    public Command highChamber() {
+        return new RunToPosition(motor, highChamber, controller, this);
+    }
+    public Command highBasket() {
+        return new RunToPosition(motor, highBasket, controller, this);
+    }
 
     @Override
     public void initialize() {
@@ -45,15 +52,14 @@ public class OuttakeSlide extends Subsystem {
     }
 
     @Override
-    public Command getDefaultCommand() {
-        return new HoldPosition(motor, controller, this);
-    }
+    public Command getDefaultCommand() { return new HoldPosition(motor, controller, this);}
 
     @Override
     public void periodic() {
         controller.setKP(kP);
         controller.setKI(kI);
         controller.setKD(kD);
+        controller.setSetPointTolerance(threshold);
 
         OpModeData.telemetry.addData("OuttakeSlide Position", motor.getCurrentPosition());
         OpModeData.telemetry.addData("OuttakeSlide Target", controller.getTarget());
