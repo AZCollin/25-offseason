@@ -12,17 +12,17 @@ import com.rowanmcalpin.nextftc.ftc.hardware.controllables.RunToPosition;
 public class TestMotorUsingNextFTCController extends Subsystem {
 
     public static final TestMotorUsingNextFTCController INSTANCE = new TestMotorUsingNextFTCController();
-    
-    public static double kP = 0.01;
+
+    public static double kP = 0.0; //0.01
     public static double kI = 0.0;
-    public static double kD = 0.00015;
+    public static double kD = 0.0; //0.00015
     public static double kF = 0.0;
 
     public String name = "Clipper";
 
     private MotorEx motor = new MotorEx(name);
 
-    private final PIDFController controller = new PIDFController(0.01, 0.0, 0.00015, (pos) -> kF);
+    private final PIDFController controller = new PIDFController(kP, kI, kD, (pos) -> kF);
 
     public Command getToZero() {
         return new RunToPosition(motor, 0.0, controller, this);
