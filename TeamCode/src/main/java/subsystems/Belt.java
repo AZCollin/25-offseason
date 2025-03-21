@@ -30,6 +30,7 @@ public class Belt extends Subsystem {
     @Override
     public void periodic(){
         OpModeData.telemetry.addData("Belt Position",motor.getCurrentPosition());
+        OpModeData.telemetry.addData()
     }
 
     @Override
@@ -41,7 +42,8 @@ public class Belt extends Subsystem {
     public Command pickup(){
         return new RunToPosition(motor,1000,controller,this);
     }
-
+    public Command upPosition() { return new RunToPosition(motor, +10,controller, this);}
+    public Command downPosition() { return new RunToPosition(motor, -10,controller, this);}
     public Command toPosition(double targetPosition){
         return new RunToPosition(motor,targetPosition,controller,this);
     }
