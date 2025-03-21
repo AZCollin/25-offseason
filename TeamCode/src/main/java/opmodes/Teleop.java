@@ -103,6 +103,8 @@ public class Teleop extends PedroOpMode {
 
         IntakeArm.INSTANCE.resetEncoder();
         OuttakeSlide.INSTANCE.resetEncoder();
+        Belt.INSTANCE.resetEncoder();
+        Clipper.INSTANCE.resetEncoder();
     }
 
     private void registerControls() {
@@ -112,8 +114,8 @@ public class Teleop extends PedroOpMode {
         gamepadManager.getGamepad1().getA().setPressedCommand(this::toggleSpeed);
         gamepadManager.getGamepad1().getDpadUp().setPressedCommand(Clipper.INSTANCE::clipUp);
         gamepadManager.getGamepad1().getDpadDown().setPressedCommand(Clipper.INSTANCE::clipDown);
-        gamepadManager.getGamepad1().getDpadLeft().setPressedCommand(Belt.INSTANCE::up);
-        gamepadManager.getGamepad1().getDpadRight().setPressedCommand(Belt.INSTANCE::down);
+        gamepadManager.getGamepad1().getDpadLeft().setPressedCommand(Belt.INSTANCE::down);
+        gamepadManager.getGamepad1().getDpadRight().setPressedCommand(Belt.INSTANCE::up);
 
         gamepadManager.getGamepad2().getX().setReleasedCommand(IntakeClaw.INSTANCE::toggle); // When pressed it triggers it so say open
         gamepadManager.getGamepad2().getX().setPressedCommand(IntakeClaw.INSTANCE::toggle);  // Then when released it should close it

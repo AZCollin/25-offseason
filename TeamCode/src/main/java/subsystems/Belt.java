@@ -30,10 +30,10 @@ public class Belt extends Subsystem {
         return new RunToPosition(motor, 0.0, controller, this);
     }
     public Command up() {
-        return new RunToPosition(motor, +10, controller, this);
+        return new RunToPosition(motor,motor.getCurrentPosition()+100, controller, this);
     }
     public Command down() {
-        return new RunToPosition(motor, -10, controller, this);
+        return new RunToPosition(motor,motor.getCurrentPosition()-100, controller, this);
     }
 
     public Command getTo1000() {

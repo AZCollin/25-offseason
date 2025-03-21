@@ -33,10 +33,10 @@ public class Clipper extends Subsystem {
         return new RunToPosition(motor, 1000.0, controller, this);
     }
     public Command clipDown() {
-        return new RunToPosition(motor, --10, controller, this);
+        return new RunToPosition(motor, motor.getCurrentPosition()+50, controller, this);
     }
     public Command clipUp() {
-        return new RunToPosition(motor, ++10, controller, this);
+        return new RunToPosition(motor, motor.getCurrentPosition()-50, controller, this);
     }
 
     @Override
