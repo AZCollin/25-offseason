@@ -29,6 +29,12 @@ public class Belt extends Subsystem {
     public Command getToZero() {
         return new RunToPosition(motor, 0.0, controller, this);
     }
+    public Command up() {
+        return new RunToPosition(motor, +10, controller, this);
+    }
+    public Command down() {
+        return new RunToPosition(motor, -10, controller, this);
+    }
 
     public Command getTo1000() {
         return new RunToPosition(motor, 500.0, controller, this);

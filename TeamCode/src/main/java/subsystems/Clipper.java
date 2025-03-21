@@ -32,7 +32,12 @@ public class Clipper extends Subsystem {
     public Command getTo1000() {
         return new RunToPosition(motor, 1000.0, controller, this);
     }
-
+    public Command clipDown() {
+        return new RunToPosition(motor, --10, controller, this);
+    }
+    public Command clipUp() {
+        return new RunToPosition(motor, ++10, controller, this);
+    }
 
     @Override
     public void initialize() {
