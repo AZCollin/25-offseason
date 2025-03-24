@@ -110,7 +110,8 @@ public class Teleop extends PedroOpMode {
     private void registerControls() {
         //gamepadManager.getGamepad1().getRightBumper().setPressedCommand(this::specimenNextStep);
         //gamepadManager.getGamepad1().getLeftBumper().setPressedCommand(this::specimenPreviousStep);
-
+        gamepadManager.getGamepad1().getA().setPressedCommand(IntakeArm.INSTANCE::IntakeArmUp);
+        gamepadManager.getGamepad1().getB().setPressedCommand(IntakeArm.INSTANCE::IntakeArmDown);
         gamepadManager.getGamepad1().getA().setPressedCommand(this::toggleSpeed);
         gamepadManager.getGamepad1().getDpadUp().setPressedCommand(Clipper.INSTANCE::clipUp);
         gamepadManager.getGamepad1().getDpadDown().setPressedCommand(Clipper.INSTANCE::clipDown);
@@ -119,7 +120,8 @@ public class Teleop extends PedroOpMode {
 
         gamepadManager.getGamepad2().getX().setReleasedCommand(IntakeClaw.INSTANCE::toggle); // When pressed it triggers it so say open
         gamepadManager.getGamepad2().getX().setPressedCommand(IntakeClaw.INSTANCE::toggle);  // Then when released it should close it
-
+        gamepadManager.getGamepad2().getDpadUp().setPressedCommand(IntakeArm.INSTANCE::IntakeArmUp);
+        gamepadManager.getGamepad2().getDpadDown().setPressedCommand(IntakeArm.INSTANCE::IntakeArmDown);
         gamepadManager.getGamepad2().getRightBumper().setPressedCommand(IntakeSlide.INSTANCE::toggle);
 
         gamepadManager.getGamepad2().getLeftBumper().setReleasedCommand(OuttakeClaw.INSTANCE::toggle); // When pressed it triggers it so say open

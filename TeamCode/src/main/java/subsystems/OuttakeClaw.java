@@ -37,6 +37,7 @@ public class OuttakeClaw extends Subsystem {
         state = "CLOSE";
         return new ServoToPosition(servo, Constants.OuttakeClawClosed, this);
     }
+
     public Command setPosition(double target){
         return new ServoToPosition(servo, target, this);
     }

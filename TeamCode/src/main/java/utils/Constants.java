@@ -13,7 +13,7 @@ public class Constants {
    // - OUTTAKE CLAW - //
 
     public static double OuttakeClawOpen = 0.2;
-    public static double OuttakeClawClosed = 0.72;
+    public static double OuttakeClawClosed = 0.71;
 
     // - OUTTAKE SLIDE - //
 

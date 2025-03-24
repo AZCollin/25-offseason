@@ -30,9 +30,9 @@ public class OuttakeSlide extends Subsystem {
     private final PIDFController controller = new PIDFController(kP, kI, kD, (pos) -> kF, threshold);
 
     public double transferPosition = 0.0;
-    public double bypassPosition = 500;
-    public double highChamberPosition = 1300;
-    public double highBasketPosition = 1700;
+    public double bypassPosition = 300;
+    public double highChamberPosition = 700;
+    public double highBasketPosition = 2050;
 
 
     public Command transfer() {
