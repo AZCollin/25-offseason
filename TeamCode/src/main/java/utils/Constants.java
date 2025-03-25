@@ -8,11 +8,11 @@ public class Constants {
     // - INTAKE CLAW - //
 
     public static double IntakeClawOpen = 0.5;
-    public static double IntakeClawClosed = 0.68;
+    public static double IntakeClawClosed = 0.72;
 
    // - OUTTAKE CLAW - //
 
-    public static double OuttakeClawOpen = 0.4;
+    public static double OuttakeClawOpen = 0.6;
     public static double OuttakeClawClosed = 0.71;
 
     // - OUTTAKE SLIDE - //
