@@ -21,7 +21,7 @@ public class IntakeArm extends Subsystem {
     public static double kD = 0.0005; //0.00015
     public static double kF = 0.004;
     public static double target = 0.0;
-    public static double threshold = 15;
+    public static double threshold = 10;
 
     public String name = "IntakeArm";
     private MotorEx motor;
@@ -30,12 +30,12 @@ public class IntakeArm extends Subsystem {
     public double pickupPosition = 400;
     public double transferPosition = -20;
     public double clip = -300;
-    public Command IntakeArmUp() {
-        return new RunToPosition(motor,motor.getCurrentPosition()+20, controller, this);
-    }
-    public Command IntakeArmDown() {
-        return new RunToPosition(motor,motor.getCurrentPosition()-20, controller, this);
-    }
+//    public Command IntakeArmUp() {
+//        return new RunToPosition(motor,motor.getCurrentPosition()+20, controller, this);
+//    }
+//    public Command IntakeArmDown() {
+//        return new RunToPosition(motor,motor.getCurrentPosition()-20, controller, this);
+//    }
     public Command pickup() { return new RunToPosition(motor, pickupPosition, controller, this); }
 
     public Command transfer() { return new RunToPosition(motor, transferPosition, controller, this); }

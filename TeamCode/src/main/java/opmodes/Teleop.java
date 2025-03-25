@@ -110,31 +110,32 @@ public class Teleop extends PedroOpMode {
     private void registerControls() {
         //gamepadManager.getGamepad1().getRightBumper().setPressedCommand(this::specimenNextStep);
         //gamepadManager.getGamepad1().getLeftBumper().setPressedCommand(this::specimenPreviousStep);
-        gamepadManager.getGamepad1().getA().setPressedCommand(IntakeArm.INSTANCE::IntakeArmUp);
-        gamepadManager.getGamepad1().getB().setPressedCommand(IntakeArm.INSTANCE::IntakeArmDown);
-        gamepadManager.getGamepad1().getA().setPressedCommand(this::toggleSpeed);
-        gamepadManager.getGamepad1().getDpadUp().setPressedCommand(Clipper.INSTANCE::clipUp);
-        gamepadManager.getGamepad1().getDpadDown().setPressedCommand(Clipper.INSTANCE::clipDown);
-        gamepadManager.getGamepad1().getDpadLeft().setPressedCommand(Belt.INSTANCE::down);
-        gamepadManager.getGamepad1().getDpadRight().setPressedCommand(Belt.INSTANCE::up);
+        //gamepadManager.getGamepad1().getA().setPressedCommand(this::toggleSpeed);
+        //gamepadManager.getGamepad1().getLeftTrigger().setPressedCommand(IntakeArm.INSTANCE::IntakeArmUp);
+        //gamepadManager.getGamepad1().getRightTrigger().setPressedCommand(IntakeArm.INSTANCE::IntakeArmDown);
 
-        gamepadManager.getGamepad2().getX().setReleasedCommand(IntakeClaw.INSTANCE::toggle); // When pressed it triggers it so say open
-        gamepadManager.getGamepad2().getX().setPressedCommand(IntakeClaw.INSTANCE::toggle);  // Then when released it should close it
-        gamepadManager.getGamepad2().getDpadUp().setPressedCommand(IntakeArm.INSTANCE::IntakeArmUp);
-        gamepadManager.getGamepad2().getDpadDown().setPressedCommand(IntakeArm.INSTANCE::IntakeArmDown);
-        gamepadManager.getGamepad2().getRightBumper().setPressedCommand(IntakeSlide.INSTANCE::toggle);
+        gamepadManager.getGamepad2().getDpadUp().setPressedCommand(Clipper.INSTANCE::clipUp);
+        gamepadManager.getGamepad2().getDpadDown().setPressedCommand(Clipper.INSTANCE::clipDown);
+        gamepadManager.getGamepad2().getDpadLeft().setPressedCommand(Belt.INSTANCE::down);
+        gamepadManager.getGamepad2().getDpadRight().setPressedCommand(Belt.INSTANCE::up);
 
-        gamepadManager.getGamepad2().getLeftBumper().setReleasedCommand(OuttakeClaw.INSTANCE::toggle); // When pressed it triggers it so say open
-        gamepadManager.getGamepad2().getLeftBumper().setPressedCommand(OuttakeClaw.INSTANCE::toggle);  // Then when released it should close it
+        gamepadManager.getGamepad1().getX().setReleasedCommand(IntakeClaw.INSTANCE::toggle); // When pressed it triggers it so say open
+        gamepadManager.getGamepad1().getX().setPressedCommand(IntakeClaw.INSTANCE::toggle);  // Then when released it should close it
+//        gamepadManager.getGamepad1().getDpadUp().setPressedCommand(IntakeArm.INSTANCE::IntakeArmUp);
+//        gamepadManager.getGamepad1().getDpadDown().setPressedCommand(IntakeArm.INSTANCE::IntakeArmDown);
+        gamepadManager.getGamepad1().getRightBumper().setPressedCommand(IntakeSlide.INSTANCE::toggle);
 
-        gamepadManager.getGamepad2().getA().setPressedCommand(IntakeArm.INSTANCE::clip);
-        gamepadManager.getGamepad2().getB().setPressedCommand(IntakeArm.INSTANCE::transfer);
-        gamepadManager.getGamepad2().getY().setPressedCommand(IntakeArm.INSTANCE::pickup);
+        gamepadManager.getGamepad1().getLeftBumper().setReleasedCommand(OuttakeClaw.INSTANCE::toggle); // When pressed it triggers it so say open
+        gamepadManager.getGamepad1().getLeftBumper().setPressedCommand(OuttakeClaw.INSTANCE::toggle);  // Then when released it should close it
 
-        gamepadManager.getGamepad2().getDpadUp().setPressedCommand(OuttakeSlide.INSTANCE::highChamber);
-        gamepadManager.getGamepad2().getDpadDown().setPressedCommand(OuttakeSlide.INSTANCE::transfer);
-        gamepadManager.getGamepad2().getDpadLeft().setPressedCommand(OuttakeSlide.INSTANCE::highBasket);
-        gamepadManager.getGamepad2().getDpadRight().setPressedCommand(OuttakeSlide.INSTANCE::bypass);
+        gamepadManager.getGamepad1().getA().setPressedCommand(IntakeArm.INSTANCE::clip);
+        gamepadManager.getGamepad1().getB().setPressedCommand(IntakeArm.INSTANCE::transfer);
+        gamepadManager.getGamepad1().getY().setPressedCommand(IntakeArm.INSTANCE::pickup);
+
+        gamepadManager.getGamepad1().getDpadUp().setPressedCommand(OuttakeSlide.INSTANCE::highChamber);
+        gamepadManager.getGamepad1().getDpadDown().setPressedCommand(OuttakeSlide.INSTANCE::transfer);
+        gamepadManager.getGamepad1().getDpadLeft().setPressedCommand(OuttakeSlide.INSTANCE::highBasket);
+        gamepadManager.getGamepad1().getDpadRight().setPressedCommand(OuttakeSlide.INSTANCE::bypass);
 
 
 
