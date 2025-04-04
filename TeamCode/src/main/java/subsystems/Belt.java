@@ -15,10 +15,10 @@ public class Belt extends Subsystem {
 
     public static double kP = 0.01;
     public static double kI = 0.0;
-    public static double kD = 0.0015;
+    public static double kD = 0.00015;
     public static double kF = 0.0;
-    public static double target = 0.0;
     public static double threshold = 10;
+    public static double target = 0;
 
     public String name = "Belt";
 
@@ -29,15 +29,15 @@ public class Belt extends Subsystem {
     public Command getToZero() {
         return new RunToPosition(motor, 0.0, controller, this);
     }
-    public Command up() {
-        return new RunToPosition(motor,motor.getCurrentPosition()+100, controller, this);
-    }
-    public Command down() {
-        return new RunToPosition(motor,motor.getCurrentPosition()-100, controller, this);
-    }
 
     public Command getTo1000() {
-        return new RunToPosition(motor, 500.0, controller, this);
+        return new RunToPosition(motor, 1000.0, controller, this);
+    }
+    public Command up() {
+        return new RunToPosition(motor,motor.getCurrentPosition()+20, controller, this);
+    }
+    public Command down() {
+        return new RunToPosition(motor,motor.getCurrentPosition()-20, controller, this);
     }
 
     @Override
@@ -51,12 +51,9 @@ public class Belt extends Subsystem {
         controller.setKI(kI);
         controller.setKD(kD);
 
-
         OpModeData.telemetry.addData("Belt Position", motor.getCurrentPosition());
         OpModeData.telemetry.addData("Belt Target", controller.getTarget());
     }
 
-    public void resetEncoder() {
-        motor.resetEncoder();
-    }
+    public void resetEncoder() { motor.resetEncoder(); }
 }
